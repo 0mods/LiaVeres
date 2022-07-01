@@ -1,3 +1,3 @@
-# LiaVeres-Forge
+# LiaVeres
 
-LiaVeres now has closed source code. The code was closed, due to almost a complete copy of my code.
+This is new LiaVeres repository
