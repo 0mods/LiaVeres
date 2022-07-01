@@ -1,56 +1,164 @@
-plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
-    id 'maven-publish'
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        maven { url = 'https://maven.parchmentmc.org' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'org.parchmentmc:librarian:1.+'
+    }
 }
 
-String LiquidVersion = "${lc_version}-Fabric"
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
-version = project.mod_version
-group = project.maven_group
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'org.spongepowered.mixin'
+
+String ForgeVersion = "${mc_version}-${forge_version}"
+//String mappingVersion = "${mapps_ver}-${mc_version}"
+String lv_version = "${mc_version}-${type_version}${version_mod}"
+String CurioVersion = "${mc_version}-${curios_version}"
+
+group = 'com.algorithmlx'
+version = "${lv_version}"
+
+java {
+    archivesBaseName = 'LiaVeres'
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
+
+minecraft {
+//    mappings channel: 'parchment', version: mappingVersion
+    mappings channel: 'official', version: "1.19"
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'debug'
+
+            arg "-mixin.config=LiaVeres.mixins.json"
+
+            mods {
+                liaveres {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'debug'
+
+            arg "-mixin.config=LiaVeres.mixins.json"
+
+            mods {
+                liaveres {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', 'liaveres', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources')
+
+            environment 'target', 'fmluserdevdata'
+
+            mods {
+                liaveres {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+mixin {
+    add sourceSets.main, "LiaVeres.refmap.json"
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
         name = "AlgoMaven"
         url = 'https://repsy.io/mvn/algorithmlx/algomaven/'
     }
+//    maven {
+//        name = "Progwml6 maven"
+//        url = "https://dvs1.progwml6.com/files/maven/"
+//    }
+//    maven {
+//        name = "ModMaven"
+//        url = "https://modmaven.k-4u.nl"
+//    }
+//
+//    maven {
+//        url "https://cursemaven.com"
+//        content {
+//            includeGroup "curse.maven"
+//        }
+//    }
+//
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
+//
+//    maven {
+//        url 'https://maven.blamejared.com'
+//    }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modApi "com.algorithmlx:liquid:1.0-Fabric"
+    minecraft "net.minecraftforge:forge:$ForgeVersion"
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+//    implementation fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+//    implementation fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${CurioVersion}")
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${CurioVersion}:api")
+    implementation fg.deobf("com.algorithmlx:liquid:${mc_version}_${lc_version}")
+//    implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${mc_version}:$ct_version")
+
+    annotationProcessor 'org.spongepowered:mixin:0.8:processor'
+//    annotationProcessor "com.blamejared.crafttweaker:Crafttweaker_Annotation_Processors-$mc_version:$ct_annotation"
 }
-
-processResources {
-    inputs.property "version", project.version
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
-
-def targetJavaVersion = 17
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        it.options.release = targetJavaVersion
-    }
-}
-
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    archivesBaseName = project.archives_base_name
-    withSourcesJar()
-}
-
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
+    manifest {
+        attributes([
+                "Specification-Title": "LiaVeres",
+                "Specification-Vendor": "AlgorithmLX",
+                "Specification-Version": "1",
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.jar.archiveVersion,
+                "Implementation-Vendor": "AlgorithmLX",
+                "MixinConfigs": "LiaVeres.mixins.json",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
+}
+
+jar.finalizedBy('reobfJar')
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile){
+    options.encoding = 'UTF-8'
 }

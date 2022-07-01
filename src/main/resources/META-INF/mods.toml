@@ -1,0 +1,25 @@
+modLoader = "javafml"
+loaderVersion = "[41,)"
+license = "MIT"
+
+[[mods]]
+modId = "liaveres"
+version = "${file.jarVersion}"
+displayName = "LiaVeres"
+authors = "AlgorithmLX"
+description = ''''''
+
+[[dependencies.liaveres]]
+modId = "forge"
+mandatory = true
+versionRange = "[41,)"
+
+[[dependencies.liaveres]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19,)"
+
+[[dependencies.liaveres]]
+modId = "curios"
+mandatory = false
+versionRange = "[1.19-5.1.0.0,)"

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "liaveres:block/yarn_station"
+    },
+    "facing=south": {
+      "model": "liaveres:block/yarn_station",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "liaveres:block/yarn_station",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "liaveres:block/yarn_station",
+      "y": 90
+    }
+  }
+}

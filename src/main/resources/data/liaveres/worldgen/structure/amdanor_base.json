@@ -1,0 +1,16 @@
+{
+  "type": "liaveres:amdanor_base",
+  "start_pool": "liaveres:amdanor_base",
+  "size": 1,
+  "max_distance_from_center": 128,
+  "biomes": "#liaveres:has_structure/amdanor_base",
+  "step": "surface_structures",
+  "start_height": {
+    "absolute": 60
+  },
+
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "spawn_overrides": {
+
+  }
+}
