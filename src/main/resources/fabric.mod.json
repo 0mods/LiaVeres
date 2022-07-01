@@ -9,7 +9,8 @@
     "AlgorithmLX"
   ],
   "contact": {
-    "repo": "https://github.com/0mods/LiaVeres"
+    "repo": "https://github.com/0mods/LiaVeres",
+    "discord": "https://discord.gg/QWQWQWQ"
   },
 
   "license": "MIT",
@@ -34,6 +35,7 @@
   "accessWidener": "liaveres.accesswidener",
     
   "depends": {
+    "fabricloader": ">=0.14.8",
     "liquid": "*",
     "minecraft": "1.19"
   }

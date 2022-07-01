@@ -24,6 +24,7 @@ dependencies {
     mappings loom.officialMojangMappings()
 
     api "com.algorithmlx:liquid:1.0-Fabric:dev"
+    include "net.fabricmc.fabric:fabric-api:${project.fabric_version}"
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 }
