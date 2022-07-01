@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "liaveres",
+  "version": "${version}",
+
+  "name": "Liaveres",
+  "description": "",
+  "authors": [
+    "AlgorithmLX"
+  ],
+  "contact": {
+    "repo": "https://github.com/0mods/LiaVeres"
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.algorithmlx.liaveres.client.LiaVeresClient"
+    ],
+    "main": [
+      "com.algorithmlx.liaveres.LiaVeres"
+    ]
+  },
+
+  "mixins": [
+    "liaveres.mixins.json"
+  ],
+    
+  "depends": {
+    "liquid": "*",
+    "fabric": "*",
+    "minecraft": "1.19"
+  }
+}
