@@ -2,7 +2,7 @@ plugins {
     id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'maven-publish'
 }
-
+//unused
 String LiquidVersion = "${lc_version}-Fabric"
 
 version = project.mod_version
@@ -15,12 +15,17 @@ repositories {
     }
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/liaveres.accesswidener")
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.officialMojangMappings()
-    modApi "com.algorithmlx:liquid:1.0-Fabric"
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    api "com.algorithmlx:liquid:1.0-Fabric:dev"
+
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 }
 
 processResources {

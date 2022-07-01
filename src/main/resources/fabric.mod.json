@@ -17,20 +17,24 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.algorithmlx.liaveres.client.LiaVeresClient"
+      "com.algorithmlx.liaveres.proxy.ClientProxy"
     ],
     "main": [
-      "com.algorithmlx.liaveres.LiaVeres"
+      "com.algorithmlx.liaveres.common.LiaVeres"
+    ],
+    "server": [
+      "com.algorithmlx.liaveres.proxy.ServerProxy"
     ]
   },
 
   "mixins": [
     "liaveres.mixins.json"
   ],
+
+  "accessWidener": "liaveres.accesswidener",
     
   "depends": {
     "liquid": "*",
-    "fabric": "*",
     "minecraft": "1.19"
   }
 }
