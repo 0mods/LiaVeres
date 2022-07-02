@@ -23,8 +23,9 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.officialMojangMappings()
 
-    api "com.algorithmlx:liquid:1.0-Fabric:dev"
-    include "net.fabricmc.fabric:fabric-api:${project.fabric_version}"
+    api "com.algorithmlx:liquid:1.19_1.0.2-Fabric:dev"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 }

@@ -10,12 +10,13 @@
   ],
   "contact": {
     "repo": "https://github.com/0mods/LiaVeres",
-    "discord": "https://discord.gg/QWQWQWQ"
+    "discord": "https://discord.gg/e2Abs6XAYW"
   },
 
   "license": "MIT",
 
   "environment": "*",
+
   "entrypoints": {
     "client": [
       "com.algorithmlx.liaveres.proxy.ClientProxy"
@@ -36,7 +37,8 @@
     
   "depends": {
     "fabricloader": ">=0.14.8",
-    "liquid": "*",
+    "fabric": "*",
+    "liquid": "1.19_1.0.2-Fabric",
     "minecraft": "1.19"
   }
 }
