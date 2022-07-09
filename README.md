@@ -28,17 +28,16 @@ Code:
 Thanks HollowHorizon, for help with code
 
 Text: 
-  - AlgorithmLX
+  - AlgorithmLX:
+    - English
+    - Russian
 
 Mod Idea: 
   - AlgorithmLX
 
 URLs:
-
   - [License](https://GitHub.com/0mods/LiaVeres/LICENSE)
-
   - [CurseForge](https://CurseForge.com/Minecraft/mc-mods/LiaVeres)
-
   - [Discord](https://discord.gg/e2Abs6XAYW)
 
 © AlgorithmLX 2021-2022 year
