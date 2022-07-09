@@ -29,8 +29,8 @@ Thanks HollowHorizon, for help with code
 
 Text: 
   - AlgorithmLX:
-    - English
-    - Russian
+   - English
+   - Russian
 
 Mod Idea: 
   - AlgorithmLX
