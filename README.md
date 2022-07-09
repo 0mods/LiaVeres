@@ -40,6 +40,7 @@ URLs:
 
 Huge thanks to the following people:
   - HollowHorizon, for help with code
+  - Domaman202, for help with code
   - DeltaRXT, for first textures before remodel
   - Sheldon, for help with backpack texture
 
