@@ -35,6 +35,6 @@ Mod Idea:
 
 URLs:
 
-[License] (https://GitHub.com/0mods/LiaVeres/LICENSE)
+[License](https://GitHub.com/0mods/LiaVeres/LICENSE)
 
 © AlgorithmLX 2021-2022 year
