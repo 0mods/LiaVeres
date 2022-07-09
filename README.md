@@ -9,7 +9,7 @@ Texture authors:
   - Matter Crystal (old)
   - Matter Crystal Block
 
-- Gordey Dokuchaev: 
+- Sheldon: 
   - Backpack
 
 - AlgorithmLX:
