@@ -27,11 +27,11 @@ Code:
 
 Text: 
   - AlgorithmLX:
-   - English
-   - Russian
+    - English
+    - Russian
 
   - Kiri:
-   - Ukraine
+    - Ukraine
 
 Mod Idea: 
   - AlgorithmLX
