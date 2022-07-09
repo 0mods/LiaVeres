@@ -29,6 +29,8 @@ Text:
   - AlgorithmLX:
    - English
    - Russian
+  - Kiri:
+   - Ukraine
 
 Mod Idea: 
   - AlgorithmLX
