@@ -35,6 +35,10 @@ Mod Idea:
 
 URLs:
 
-[License](https://GitHub.com/0mods/LiaVeres/LICENSE)
+  - [License](https://GitHub.com/0mods/LiaVeres/LICENSE)
+
+  - [CurseForge](https://CurseForge.com/Minecraft/mc-mods/LiaVeres)
+
+  - [Discord]()
 
 © AlgorithmLX 2021-2022 year
