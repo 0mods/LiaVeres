@@ -45,5 +45,6 @@ Huge thanks to the following people:
   - Domaman202, for help with code
   - DeltaRXT, for first textures before remodel
   - Sheldon, for help with backpack texture
+  - Kiri, for help with Ukraine translation
 
 © AlgorithmLX 2021-2022 year
