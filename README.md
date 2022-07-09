@@ -39,6 +39,6 @@ URLs:
 
   - [CurseForge](https://CurseForge.com/Minecraft/mc-mods/LiaVeres)
 
-  - [Discord]()
+  - [Discord](https://discord.gg/e2Abs6XAYW)
 
 © AlgorithmLX 2021-2022 year
