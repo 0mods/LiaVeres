@@ -25,8 +25,6 @@ Texture authors:
 Code:
   - AlgorithmLX
 
-Thanks HollowHorizon, for help with code
-
 Text: 
   - AlgorithmLX:
    - English
@@ -39,5 +37,10 @@ URLs:
   - [License](https://GitHub.com/0mods/LiaVeres/LICENSE)
   - [CurseForge](https://CurseForge.com/Minecraft/mc-mods/LiaVeres)
   - [Discord](https://discord.gg/e2Abs6XAYW)
+
+Huge thanks to the following people:
+  - HollowHorizon, for help with code
+  - DeltaRXT, for first textures before remodel
+  - Sheldon, for help with backpack texture
 
 © AlgorithmLX 2021-2022 year
