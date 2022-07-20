@@ -48,4 +48,8 @@ Huge thanks to the following people:
   - Sheldon, for help with backpack texture
   - Kiri, for help with Ukraine translation
 
-© AlgorithmLX 2021-2022 year
+© AlgorithmLX 2021-2022 year. © 0mods 2022 year
+License: 
+  - AGPL 3.0 - 2021 year
+  - MIT - 2022 year
+  - Mozilla Public License v2.0 - 2022year
