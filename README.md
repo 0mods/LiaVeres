@@ -24,6 +24,8 @@ Texture authors:
 
 Code:
   - AlgorithmLX
+  - Domaman202
+  - HollowHorizon
 
 Text: 
   - AlgorithmLX:
