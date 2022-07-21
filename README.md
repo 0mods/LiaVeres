@@ -49,6 +49,7 @@ Huge thanks to the following people:
   - Kiri, for help with Ukraine translation
 
 © AlgorithmLX 2021-2022 year. © 0mods 2022 year
+
 License: 
   - AGPL 3.0 - 2021 year
   - MIT - 2022 year
