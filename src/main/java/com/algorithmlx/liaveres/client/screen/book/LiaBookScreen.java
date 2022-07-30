@@ -19,7 +19,7 @@ public class LiaBookScreen extends ScreenBase {
     @Override
     protected void init() {
         this.addRenderableWidget(new ButtonBase(37, 23, 16, 16,
-                        pButton -> minecraft.setScreen(new LiaBookInfoPage()),
+                        pButton -> this.minecraft.setScreen(new LiaBookInfoPage()),
                         new ResourceLocation("")
                 )
         );
@@ -36,7 +36,7 @@ public class LiaBookScreen extends ScreenBase {
 
     @Override
     public void texts() {
-        this.text("mainPage", 0x000000,275, 24);
+        this.text("mainPage", 0x000000, 275, 24);
         this.text("mainPage.1", 0x000000, 275, 34);
     }
 }

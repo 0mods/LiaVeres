@@ -2,16 +2,22 @@ package com.algorithmlx.liaveres.common.item.tool;
 
 import com.algorithmlx.liaveres.common.LiaVeres;
 import com.algorithmlx.liaveres.common.item.material.LVToolMaterial;
+import com.algorithmlx.liaveres.common.setup.CommonConfig;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.common.setup.ModSetup;
+import com.algorithmlx.liaveres.common.setup.Registration;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -23,10 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("ALL")
 public class MatterCrystalPickaxe extends PickaxeItem {
-    public static boolean skip = false;
-
     public MatterCrystalPickaxe() {
         super(LVToolMaterial.MATTER_CRYSTAL, Integer.MAX_VALUE, Float.MAX_VALUE,
                 new Properties().fireResistant().tab(ModSetup.CLASSIC_TAB).rarity(Constants.getLegendary));
@@ -35,64 +38,23 @@ public class MatterCrystalPickaxe extends PickaxeItem {
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
         Player pPlayer = context.getPlayer();
-        BlockPos blockPos = context.getClickedPos();
-        ItemStack pItemStack = context.getItemInHand();
         if (pPlayer == null) return InteractionResult.FAIL;
-        Level pLevel = pPlayer.getLevel();
-        if (!pLevel.isClientSide() && !pPlayer.isShiftKeyDown()
-                && !pPlayer.getCooldowns().isOnCooldown(pItemStack.getItem()) && pPlayer instanceof ServerPlayer serverPlayer) {
-            if (!skip) {
-                List<BlockPos> blocks = new ArrayList<>();
-
-                for (int x = 0; x < (LiaVeres.COMMON.pickaxeExcavationRadius.get() * 2 - 2); x++) {
-                    for (int y = 0; y < (LiaVeres.COMMON.pickaxeExcavationRadius.get() * 2 - 2); y++) {
-                        for (int z = 0; z < (LiaVeres.COMMON.pickaxeExcavationRadius.get() * 2 - 2); z++) {
-                            int posX = blockPos.getX();
-                            int posY = blockPos.getY();
-                            int posZ = blockPos.getZ();
-
-                            switch (pPlayer.getDirection()) {
-                                case SOUTH -> blocks.add(new BlockPos(
-                                        posX + LiaVeres.COMMON.pickaxeExcavationRadius.get() - x,
-                                        posY - 1 + y,
-                                        posZ + z)
-                                );
-                                case NORTH -> blocks.add(new BlockPos(
-                                        posX - LiaVeres.COMMON.pickaxeExcavationRadius.get() + x,
-                                        posY - 1 + y,
-                                        posZ - z)
-                                );
-                                case EAST -> blocks.add(new BlockPos(
-                                        posX + x,
-                                        posY - 1 + y,
-                                        posZ + LiaVeres.COMMON.pickaxeExcavationRadius.get() - z)
-                                );
-                                case WEST -> blocks.add(new BlockPos(
-                                        posX - x,
-                                        posY - 1 + y,
-                                        posZ - LiaVeres.COMMON.pickaxeExcavationRadius.get() + z)
-                                );
-                            }
-                        }
-                    }
-                }
-                skip = true;
-                for (BlockPos position : blocks) {
-                    BlockState state = pLevel.getBlockState(position);
-                    if (!state.isAir())
-                        serverPlayer.gameMode.destroyBlock(position);
-                }
-                skip = false;
+        if (pPlayer.isShiftKeyDown()) {
+            if (pPlayer.getItemInHand(context.getHand()).getItem() == Registration.MATTER_CRYSTAL_PICKAXE.get()) {
+                pPlayer.setItemInHand(context.getHand(), new ItemStack(Registration.MATTER_CRYSTAL_BREAKER.get()));
+                return InteractionResult.SUCCESS;
             }
-            pPlayer.getCooldowns().addCooldown(this, 240);
         }
+
         return super.useOn(context);
     }
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(@NotNull ItemStack pItemStack, Level p_41422_, List<Component> p_41423_, @NotNull TooltipFlag p_41424_) {
         p_41423_.add(Component.translatable("msg."+Constants.ModId+".matter_crystal_pickaxe"));
-        p_41423_.add(Component.translatable("msg."+Constants.ModId+".matter_crystal_msg").withStyle(ChatFormatting.RED, ChatFormatting.YELLOW, ChatFormatting.GREEN, ChatFormatting.AQUA, ChatFormatting.BLUE, ChatFormatting.LIGHT_PURPLE));
+
+
+        p_41423_.add(Component.translatable("msg."+Constants.ModId+".matter_crystal_msg").withStyle(ChatFormatting.values()));
         super.appendHoverText(pItemStack, p_41422_, p_41423_, p_41424_);
     }
     @Override

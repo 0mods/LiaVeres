@@ -4,16 +4,12 @@ import com.algorithmlx.liaveres.common.menu.container.YarnCraftContainer;
 import com.algorithmlx.liaveres.common.menu.container.YarnResultContainer;
 import com.algorithmlx.liaveres.common.menu.slots.YarnInputSlot;
 import com.algorithmlx.liaveres.common.menu.slots.YarnOutputResultSlot;
-import com.algorithmlx.liaveres.common.recipe.RecipeTypes;
 import com.algorithmlx.liaveres.common.setup.Registration;
 import com.algorithmlx.liaveres.common.menu.slots.YarnInputSkeinSlot;
 import liquid.objects.container.AdvancedContainerMenu;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -25,9 +21,12 @@ import net.minecraftforge.items.CapabilityItemHandler;
 public class YarnStationContainerMenu extends AdvancedContainerMenu {
     private final BlockEntity blockEntity;
     private final YarnResultContainer resultSlot;
+    private final Inventory inv;
 
     public YarnStationContainerMenu(int windowId, Inventory inv, Level level, BlockPos pos) {
         super(Registration.YARN_STATION_CONTAINER.get(), windowId, inv);
+
+        this.inv = inv;
 
         this.makeInventorySlots(8, 84);
         this.blockEntity = level.getBlockEntity(pos);
@@ -51,29 +50,23 @@ public class YarnStationContainerMenu extends AdvancedContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
-        var finalStack = ItemStack.EMPTY;
-        var slot = this.slots.get(pIndex);
-        var empty = ItemStack.EMPTY;
+        ItemStack startStack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(pIndex);
 
         if (slot != null && slot.hasItem()) {
-            var stack = slot.getItem();
-            finalStack = stack.copy();
+            ItemStack original = slot.getItem();
+            startStack = original.copy();
 
-            if (pIndex < 38)
-                if (!this.moveItemStackTo(stack, 0, this.slots.size(), true))
-                    return empty;
+            if (pIndex < this.inv.getContainerSize())
+                if (!this.moveItemStackTo(original, this.inv.getContainerSize(), this.slots.size(), true))
+                    return ItemStack.EMPTY;
+            else if (!this.moveItemStackTo(original, 0, this.inv.getContainerSize(), false)) return ItemStack.EMPTY;
 
-            if (!this.moveItemStackTo(stack, 1, this.slots.size(), false))
-                return empty;
 
-            if (stack.isEmpty()) slot.set(empty);
+            if (original.isEmpty()) slot.set(ItemStack.EMPTY);
             else slot.setChanged();
-
-            if (stack.getCount() == finalStack.getCount())
-                return empty;
-
-            slot.onTake(pPlayer, stack);
         }
-        return finalStack;
+
+        return startStack;
     }
 }

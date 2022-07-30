@@ -10,6 +10,7 @@ import com.algorithmlx.liaveres.common.item.basic.*;
 import com.algorithmlx.liaveres.common.item.tool.*;
 import com.algorithmlx.liaveres.common.item.food.*;
 import com.algorithmlx.liaveres.common.recipe.*;
+import com.algorithmlx.liaveres.common.world.levelgen.OreModifier;
 import com.algorithmlx.liaveres.common.world.structures.*;
 import com.algorithmlx.liaveres.common.menu.*;
 import com.mojang.serialization.Codec;
@@ -36,6 +37,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.extensions.IForgeMenuType;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.*;
@@ -54,6 +56,7 @@ public class Registration {
     public static final DeferredRegister<StructureType<?>> STRUCTURE = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, Constants.ModId);
     public static final DeferredRegister<MenuType<?>> CONTAINER = DeferredRegister.create(ForgeRegistries.CONTAINERS, Constants.ModId);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Constants.ModId);
+    public static final DeferredRegister<Codec<? extends BiomeModifier>> MODIFIER_CODEC = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Constants.ModId);
 
     public static void init() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -177,7 +180,8 @@ public class Registration {
     public static final RegistryObject<Item> BASIC_BACKPACK = ITEM.register("basic_backpack",
             ()-> new DynamicItem(DynamicContainerData.of(9, 1, SoundEvents.ARMOR_EQUIP_CHAIN),
                     new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
-
+    public static final RegistryObject<Item> MATTER_CRYSTAL_BREAKER = ITEM.register("matter_crystal_breaker",
+            MatterCrystalBreaker::new);
     public static final RegistryObject<MenuType<YarnStationContainerMenu>> YARN_STATION_CONTAINER =
             CONTAINER.register("yarn_station", ()-> IForgeMenuType.create(
                     (windowId, inv, data)-> {
@@ -197,14 +201,14 @@ public class Registration {
 
     public static final RegistryObject<StructureType<?>> AMDANOR_BASE = register("amdanor_base", AmdanorBaseStructure.CODEC);
 
-    public static final RegistryObject<LiquidRecipeSerializers<YarnRecipe>> YARN_RECIPE =
-             RECIPE.register("yarn",
-                    ()-> new LiquidRecipeSerializers<>(YarnRecipe::new));
+    public static final RegistryObject<LiquidRecipeSerializers<YarnRecipe>> YARN_RECIPE = RECIPE.register("yarn",
+            ()-> new LiquidRecipeSerializers<>(YarnRecipe::new));
+
+    public static final RegistryObject<Codec<OreModifier>> ORE_CODEC = MODIFIER_CODEC.register("ore", ()-> OreModifier.CODEC);
 
     private static <S extends Structure> RegistryObject<StructureType<?>> register(String id, Codec<S> codec) {
         return STRUCTURE.register(id, ()-> codecConvertor(codec));
     }
-
     private static <S extends Structure> StructureType<S> codecConvertor(Codec<S> codec) {
         return ()-> codec;
     }

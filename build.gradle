@@ -102,36 +102,40 @@ repositories {
         name = "AlgoMaven"
         url = 'https://repsy.io/mvn/algorithmlx/algomaven/'
     }
-//    maven {
-//        name = "Progwml6 maven"
-//        url = "https://dvs1.progwml6.com/files/maven/"
-//    }
-//    maven {
-//        name = "ModMaven"
-//        url = "https://modmaven.k-4u.nl"
-//    }
-//
+
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
+
 //    maven {
 //        url "https://cursemaven.com"
 //        content {
 //            includeGroup "curse.maven"
 //        }
 //    }
-//
+
     maven {
         url = "https://maven.theillusivec4.top/"
     }
-//
-//    maven {
-//        url 'https://maven.blamejared.com'
-//    }
+
+    maven {
+        url 'https://maven.blamejared.com'
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:$ForgeVersion"
 
-//    implementation fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-//    implementation fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+    implementation fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
+    implementation fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
+    implementation fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
+
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${CurioVersion}")
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${CurioVersion}:api")
     implementation fg.deobf("com.algorithmlx:liquid:${mc_version}_${lc_version}")
