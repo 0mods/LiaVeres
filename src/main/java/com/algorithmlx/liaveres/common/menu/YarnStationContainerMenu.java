@@ -62,7 +62,6 @@ public class YarnStationContainerMenu extends AdvancedContainerMenu {
                     return ItemStack.EMPTY;
             else if (!this.moveItemStackTo(original, 0, this.inv.getContainerSize(), false)) return ItemStack.EMPTY;
 
-
             if (original.isEmpty()) slot.set(ItemStack.EMPTY);
             else slot.setChanged();
         }

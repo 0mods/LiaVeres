@@ -22,9 +22,6 @@ public class LiaVeres {
 
         Registration.init();
         bus.addListener(ModSetup::init);
-        if (list.isLoaded(Constants.CurioID)) {
-            bus.addListener(CuriosLoader::createCurioSlots);
-        }
-
+        if (list.isLoaded(Constants.CurioID)) bus.addListener(CuriosLoader::createCurioSlots);
     }
 }

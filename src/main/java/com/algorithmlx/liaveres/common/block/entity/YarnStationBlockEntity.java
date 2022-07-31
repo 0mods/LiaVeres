@@ -6,6 +6,7 @@ import com.algorithmlx.liaveres.common.recipe.YarnRecipe;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.common.setup.Registration;
 import liquid.helper.StackHelper;
+import liquid.objects.block.entity.AbstractBlockEntity;
 import liquid.objects.block.entity.TickingBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -18,13 +19,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class YarnStationBlockEntity extends TickingBlockEntity implements MenuProvider {
+public class YarnStationBlockEntity extends AbstractBlockEntity implements MenuProvider {
     private final BlockPos pos;
 
     public YarnStationBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
@@ -55,9 +57,7 @@ public class YarnStationBlockEntity extends TickingBlockEntity implements MenuPr
 
     public void drops() {
         SimpleContainer inventory = new SimpleContainer(handler.getSlots());
-        for (int i = 0; i < handler.getSlots(); i++) {
-            inventory.setItem(i, handler.getStackInSlot(i));
-        }
+        for (int i = 0; i < handler.getSlots(); i++) inventory.setItem(i, handler.getStackInSlot(i));
 
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
@@ -65,9 +65,7 @@ public class YarnStationBlockEntity extends TickingBlockEntity implements MenuPr
     private static boolean hasRecipe(YarnStationBlockEntity entity) {
         Level level = entity.level;
         SimpleContainer inventory = new SimpleContainer(entity.handler.getSlots());
-        for (int i = 0; i < entity.handler.getSlots(); i++) {
-            inventory.setItem(i, entity.handler.getStackInSlot(i));
-        }
+        for (int i = 0; i < entity.handler.getSlots(); i++) inventory.setItem(i, entity.handler.getStackInSlot(i));
 
         Optional<YarnRecipe> match = level.getRecipeManager()
                 .getRecipeFor(RecipeTypes.YARN_RECIPE_TYPE, inventory, level);
@@ -86,31 +84,20 @@ public class YarnStationBlockEntity extends TickingBlockEntity implements MenuPr
                 .getRecipeFor(RecipeTypes.YARN_RECIPE_TYPE, inventory, level);
 
         if(match.isPresent()) {
-            entity.handler.extractItem(0,1, false);
-            entity.handler.extractItem(1,1, false);
+            entity.handler.extractItem(0, 1, false);
+            entity.handler.extractItem(1, 1, false);
             entity.handler.setStackInSlot(2, new ItemStack(match.get().getResultItem().getItem(),
-                    entity.handler.getStackInSlot(3).getCount() + 1));
+                    entity.handler.getStackInSlot(2).getCount() + 1));
 
         }
     }
 
-    @Override
-    public void tick(Level level, BlockPos blockPos, BlockState blockState, TickingBlockEntity tickingBlockEntity) {
-        YarnStationBlockEntity be = (YarnStationBlockEntity) tickingBlockEntity;
-        if(hasRecipe(be)) {
-            setChanged(level, blockPos, blockState);
-            craftItem(be);
+    public static void tick(Level level, BlockPos pos, BlockState state, YarnStationBlockEntity blockEntity) {
+        if (hasRecipe(blockEntity)) {
+            setChanged(level, pos, state);
+            craftItem(blockEntity);
         } else {
-            setChanged(level, blockPos, blockState);
-        }
-    }
-
-    public static void tick0(Level level, BlockPos blockPos, BlockState blockState, YarnStationBlockEntity tickingBlockEntity) {
-        if(hasRecipe(tickingBlockEntity)) {
-            setChanged(level, blockPos, blockState);
-            craftItem(tickingBlockEntity);
-        } else {
-            setChanged(level, blockPos, blockState);
+            setChanged(level, pos, state);
         }
     }
 }

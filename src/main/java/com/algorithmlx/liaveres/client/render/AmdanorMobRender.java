@@ -1,7 +1,7 @@
 package com.algorithmlx.liaveres.client.render;
 
 import com.algorithmlx.liaveres.client.model.AmdanorMobModel;
-import com.algorithmlx.liaveres.common.entity.AmdanorMob;
+import com.algorithmlx.liaveres.common.entity.Amdanor;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class AmdanorMobRender extends HumanoidMobRenderer<AmdanorMob, AmdanorMobModel<AmdanorMob>> {
+public class AmdanorMobRender extends HumanoidMobRenderer<Amdanor, AmdanorMobModel<Amdanor>> {
     public static final float mobScale = 0.75F;
     private static final ResourceLocation MOB_TEXTURE = new ResourceLocation(Constants.ModId, "textures/entity/amdanor_skeleton.png");
 
@@ -25,12 +25,12 @@ public class AmdanorMobRender extends HumanoidMobRenderer<AmdanorMob, AmdanorMob
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(AmdanorMob entity) {
+    public @NotNull ResourceLocation getTextureLocation(Amdanor entity) {
         return MOB_TEXTURE;
     }
 
     @Override
-    protected void scale(AmdanorMob mob, PoseStack poseStack, float partialTickTime) {
+    protected void scale(Amdanor mob, PoseStack poseStack, float partialTickTime) {
         poseStack.scale(mobScale, mobScale, mobScale);
     }
 }

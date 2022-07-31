@@ -31,7 +31,7 @@ public class ClientProxy implements Direction {
 
     @SubscribeEvent
     public static void entityRender(final EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(Registration.AMDANOR_SKELETON.get(), AmdanorMobRender::new);
+        event.registerEntityRenderer(Registration.AMDANOR.get(), AmdanorMobRender::new);
     }
 
     @Override

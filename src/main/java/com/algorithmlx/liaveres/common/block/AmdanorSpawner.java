@@ -44,7 +44,7 @@ public class AmdanorSpawner extends Block {
         Item activator = Registration.AMDANOR_UNLOCKER_KEY.get();
         if (!pLevel.isClientSide) {
             if ((pLevel.getDifficulty() != Difficulty.PEACEFUL) && (mainItem.getItem() == activator && pHand == InteractionHand.MAIN_HAND)) {
-                Registration.AMDANOR_SKELETON.get().spawn((ServerLevel) pLevel, mainItem, pPlayer, pPos, MobSpawnType.SPAWN_EGG, true, false);
+                Registration.AMDANOR.get().spawn((ServerLevel) pLevel, mainItem, pPlayer, pPos, MobSpawnType.SPAWN_EGG, true, false);
                 if (!pPlayer.isCreative()) {
                     mainItem.shrink(1);
                 }

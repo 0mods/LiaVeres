@@ -37,10 +37,10 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import javax.annotation.Nullable;
 
 @SuppressWarnings("ALL")
-public class AmdanorMob extends AbstractSkeleton {
+public class Amdanor extends AbstractSkeleton {
     private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.BLUE, BossEvent.BossBarOverlay.PROGRESS);
 
-    public AmdanorMob(EntityType<? extends AbstractSkeleton> pEntityType, Level pLevel) {
+    public Amdanor(EntityType<? extends AbstractSkeleton> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -127,7 +127,7 @@ public class AmdanorMob extends AbstractSkeleton {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.getEntity() instanceof AmdanorMob)
+        if (source.getEntity() instanceof Amdanor)
             amount *= -Float.MAX_VALUE;
         return !this.isInvulnerableTo(source) && super.hurt(source, amount);
     }

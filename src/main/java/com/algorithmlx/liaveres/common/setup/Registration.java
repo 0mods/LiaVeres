@@ -71,18 +71,7 @@ public class Registration {
         CONTAINER.register(bus);
         RECIPE.register(bus);
     }
-//    public static final RegistryObject<Block> MATTER_CRYSTAL_BLOCK = BLOCKS.register("matter_crystal_block",
-//            ()-> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(Float.MAX_VALUE, Float.MAX_VALUE)
-//                    .requiresCorrectToolForDrops()));
-//    public static final RegistryObject<Block> AMDANOR_SPAWNER = BLOCKS.register("amdanor_spawner", AmdanorSpawner::new);
-//    public static final RegistryObject<Block> GILDED_NETHERITE_BLOCK = BLOCKS.register("gilded_netherite_block",
-//            ()-> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(80f, 240000f)
-//                    .requiresCorrectToolForDrops()));
-//    public static final RegistryObject<Block> CRYSTALLITE = BLOCKS.register("crystallite", Crystallite::new);
-//    public static final RegistryObject<Block> MATTER_BLOCK = BLOCKS.register("matter_block",
-//            ()-> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(500f, 700000000f)
-//                    .requiresCorrectToolForDrops()));
-//    public static final RegistryObject<Block> YARN_STATION = BLOCKS.register("yarn_station", YarnStation::new);
+
     public static final RegistryObject<Block> MATTER_CRYSTAL_BLOCK =
         register("matter_crystal_block", ()->
                         new Block(BlockBehaviour.Properties.of(Material.METAL)
@@ -118,7 +107,7 @@ public class Registration {
     public static final RegistryObject<Item> MATTER_SHARD = ITEM.register("matter_shard",
             ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
     public static final RegistryObject<Item> AMDANOR_SKELETON_EGG = ITEM.register("amdanor_skeleton_egg",
-            ()-> new ForgeSpawnEggItem(Registration.AMDANOR_SKELETON, 0x000000, 0xffffff,
+            ()-> new ForgeSpawnEggItem(Registration.AMDANOR, 0x000000, 0xffffff,
                     new Item.Properties().tab(ModSetup.MOBS_TAB)));
     public static final RegistryObject<Item> MATTER_CRYSTAL_SWORD = ITEM.register("matter_crystal_sword", MatterCrystalSword::new);
     public static final RegistryObject<Item> MATTER_HELMET = ITEM.register("matter_helmet",
@@ -193,11 +182,11 @@ public class Registration {
     public static final RegistryObject<BlockEntityType<YarnStationBlockEntity>> YARN_STATION_BLOCK_ENTITY =
             BLOCK_ENTITY.register("yarn_station", ()-> BlockEntityType.Builder.of(YarnStationBlockEntity::new, YARN_STATION.get()).build(null));
 
-    public static final RegistryObject<EntityType<AmdanorMob>> AMDANOR_SKELETON =
-            ENTITY.register("amdanor_skeleton",
-                    ()-> EntityType.Builder.of(AmdanorMob::new, MobCategory.MONSTER)
+    public static final RegistryObject<EntityType<Amdanor>> AMDANOR =
+            ENTITY.register("amdanor",
+                    ()-> EntityType.Builder.of(Amdanor::new, MobCategory.MISC)
                             .sized(0.55f, 1.5f).fireImmune().immuneTo(Blocks.WITHER_ROSE)
-                            .clientTrackingRange(16).build("amdanor_skeleton"));
+                            .clientTrackingRange(16).build("amdanor"));
 
     public static final RegistryObject<StructureType<?>> AMDANOR_BASE = register("amdanor_base", AmdanorBaseStructure.CODEC);
 
@@ -209,11 +198,13 @@ public class Registration {
     private static <S extends Structure> RegistryObject<StructureType<?>> register(String id, Codec<S> codec) {
         return STRUCTURE.register(id, ()-> codecConvertor(codec));
     }
+
     private static <S extends Structure> StructureType<S> codecConvertor(Codec<S> codec) {
         return ()-> codec;
     }
-    private static <BLOCK extends Block> RegistryObject<BLOCK> register(String name, Supplier<BLOCK> blockSupplier, Function<BLOCK, Item> itemFactory) {
-        RegistryObject<BLOCK> block = BLOCKS.register(name, blockSupplier);
+
+    private static <B extends Block> RegistryObject<B> register(String name, Supplier<B> blockSupplier, Function<B, Item> itemFactory) {
+        RegistryObject<B> block = BLOCKS.register(name, blockSupplier);
         ITEM.register(name, ()-> itemFactory.apply(block.get()));
         return block;
     }
