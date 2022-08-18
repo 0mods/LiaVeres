@@ -14,6 +14,8 @@ import com.algorithmlx.liaveres.common.world.levelgen.OreModifier;
 import com.algorithmlx.liaveres.common.world.structures.*;
 import com.algorithmlx.liaveres.common.menu.*;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.RecordBuilder;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liquid.dynamic.item.DynamicItem;
 import liquid.objects.data.container.DynamicContainerData;
 import liquid.recipes.LiquidRecipeSerializers;
@@ -31,6 +33,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.material.Fluid;
@@ -49,12 +52,12 @@ import java.util.function.Supplier;
 public class Registration {
     public static final DeferredRegister<Item> ITEM = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.ModId);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.ModId);
-    public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(ForgeRegistries.ENTITIES, Constants.ModId);
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Constants.ModId);
+    public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Constants.ModId);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Constants.ModId);
     public static final DeferredRegister<Biome> BIOME = DeferredRegister.create(ForgeRegistries.BIOMES, Constants.ModId);
     public static final DeferredRegister<Fluid> FLUID = DeferredRegister.create(ForgeRegistries.FLUIDS, Constants.ModId);
     public static final DeferredRegister<StructureType<?>> STRUCTURE = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, Constants.ModId);
-    public static final DeferredRegister<MenuType<?>> CONTAINER = DeferredRegister.create(ForgeRegistries.CONTAINERS, Constants.ModId);
+    public static final DeferredRegister<MenuType<?>> CONTAINER = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Constants.ModId);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Constants.ModId);
     public static final DeferredRegister<Codec<? extends BiomeModifier>> MODIFIER_CODEC = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Constants.ModId);
 
@@ -171,6 +174,7 @@ public class Registration {
                     new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
     public static final RegistryObject<Item> MATTER_CRYSTAL_BREAKER = ITEM.register("matter_crystal_breaker",
             MatterCrystalBreaker::new);
+    public static final RegistryObject<Item> THE_EFFECTS_RING = ITEM.register("the_effects_ring", TheEffectsRing::new);
     public static final RegistryObject<MenuType<YarnStationContainerMenu>> YARN_STATION_CONTAINER =
             CONTAINER.register("yarn_station", ()-> IForgeMenuType.create(
                     (windowId, inv, data)-> {
@@ -193,7 +197,11 @@ public class Registration {
     public static final RegistryObject<LiquidRecipeSerializers<YarnRecipe>> YARN_RECIPE = RECIPE.register("yarn",
             ()-> new LiquidRecipeSerializers<>(YarnRecipe::new));
 
-    public static final RegistryObject<Codec<OreModifier>> ORE_CODEC = MODIFIER_CODEC.register("ore", ()-> OreModifier.CODEC);
+    public static final RegistryObject<Codec<OreModifier>> ORE_CODEC = MODIFIER_CODEC.register("ore",
+            ()-> RecordCodecBuilder.create(BUILDER -> BUILDER.group(
+                    Biome.LIST_CODEC.fieldOf("biomes").forGetter(OreModifier::biomes),
+                    PlacedFeature.CODEC.fieldOf("feature").forGetter(OreModifier::feature)
+            ).apply(BUILDER, OreModifier::new)));
 
     private static <S extends Structure> RegistryObject<StructureType<?>> register(String id, Codec<S> codec) {
         return STRUCTURE.register(id, ()-> codecConvertor(codec));

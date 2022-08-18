@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
-@SuppressWarnings({"ConstantConditions", "SameParameterValue"})
+@SuppressWarnings({"ConstantConditions", "SameParameterValue", "unused"})
 public class Recipes extends RecipeProvider {
     public Recipes(DataGenerator pGenerator) {
         super(pGenerator);

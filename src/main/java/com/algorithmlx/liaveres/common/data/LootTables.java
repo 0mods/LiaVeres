@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.ForgeRegistries;
 
+@SuppressWarnings("ConstantConditions")
 public class LootTables extends LootTableProviderBase {
     public LootTables(DataGenerator pGenerator) {
         super(pGenerator);
@@ -20,7 +21,7 @@ public class LootTables extends LootTableProviderBase {
 
     private void noBlockEntity(Block block) {
         lootTable.put(block, createWithoutBlockEntity(ForgeRegistries.ITEMS.getKey(((ItemLike) block).asItem()).getPath(), block));
-    }
+     }
 
     private void blockEntity(Block block, BlockEntityType<?> entity) {
         lootTable.put(block, createStandard(ForgeRegistries.ITEMS.getKey(((ItemLike) block).asItem()).getPath(), block, entity));
