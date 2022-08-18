@@ -40,6 +40,11 @@ import javax.annotation.Nullable;
 public class Amdanor extends AbstractSkeleton {
     private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.BLUE, BossEvent.BossBarOverlay.PROGRESS);
 
+    private ServerPlayer player;
+
+    private float bossHP;
+    private float bossDamage;
+
     public Amdanor(EntityType<? extends AbstractSkeleton> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -86,21 +91,10 @@ public class Amdanor extends AbstractSkeleton {
         return (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.33F;
     }
 
-//    @Override
-//    protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty) {
-//        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
-//        this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Registration.MATTER_SHARD.get()));
-//    }
-
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource p_218949_, DifficultyInstance p_218950_) {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
         this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Registration.MATTER_SHARD.get()));
-    }
-
-    @Override
-    protected void tickDeath() {
-        super.tickDeath();
     }
 
     @Nullable
@@ -114,13 +108,9 @@ public class Amdanor extends AbstractSkeleton {
 
     @Override
     public boolean doHurtTarget(Entity entityIn) {
-        if (!super.doHurtTarget(entityIn)) {
-            return false;
-        } else {
-            if (entityIn instanceof LivingEntity entity) {
-                entity.addEffect(new MobEffectInstance(MobEffects.WITHER, 200));
-            }
-
+        if (!super.doHurtTarget(entityIn)) return false;
+        else {
+            if (entityIn instanceof LivingEntity entity) entity.addEffect(new MobEffectInstance(MobEffects.WITHER, 200));
             return true;
         }
     }
@@ -138,17 +128,16 @@ public class Amdanor extends AbstractSkeleton {
     }
 
     public static AttributeSupplier.Builder prepareAttributes() {
-        return LivingEntity.createLivingAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 20000000000.0d)
+        return AttributeSupplier.builder()
+                .add(Attributes.ATTACK_DAMAGE, 20000000000f)
                 .add(Attributes.MAX_HEALTH, Double.MAX_VALUE)
-                .add(Attributes.FOLLOW_RANGE, 400.0d)
-                .add(Attributes.MOVEMENT_SPEED, 1.0d)
-                .add(Attributes.ATTACK_KNOCKBACK, 3.5d);
+                .add(Attributes.FOLLOW_RANGE, 400.0f)
+                .add(Attributes.MOVEMENT_SPEED, 1.0f)
+                .add(Attributes.ATTACK_KNOCKBACK, 3.5f);
     }
 
     @Override
     protected void dropCustomDeathLoot(DamageSource pDamageSource, int pLooting, boolean pRecentlyHit) {
-        super.dropCustomDeathLoot(pDamageSource, pLooting, pRecentlyHit);
         ItemEntity itemEntity = this.spawnAtLocation(Registration.MATTER_SHARD.get(), 4);
         if (itemEntity != null) {
             itemEntity.setExtendedLifetime();
@@ -162,8 +151,14 @@ public class Amdanor extends AbstractSkeleton {
 
     @Override
     public void tick() {
-        super.tick();
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
+
+        while (player.getAbilities().mayfly) {
+            player.getAbilities().mayfly = false;
+            player.sendSystemMessage(Component.translatable("msg." + Constants.ModId + ".amdanor.blocking"));
+        }
+
+        while (player.gameMode.isCreative() || player.gameMode.isSurvival()) player.setGameMode(GameType.ADVENTURE);
     }
 
     public BossEvent.BossBarColor getBarColor() {
@@ -172,14 +167,8 @@ public class Amdanor extends AbstractSkeleton {
 
     @Override
     public void startSeenByPlayer(ServerPlayer player) {
-        if (player.gameMode.isCreative() || player.gameMode.isSurvival()) {
-            player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE);
-        }
+        this.player = player;
 
-        if (player.getAbilities().mayfly) {
-            player.getAbilities().mayfly = false;
-            player.sendSystemMessage(Component.translatable("msg." + Constants.ModId + ".amdanor.blocking"));
-        }
         this.bossInfo.setColor(getBarColor());
         this.bossInfo.addPlayer(player);
     }

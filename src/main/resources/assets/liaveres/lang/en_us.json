@@ -44,7 +44,7 @@
   "block.liaveres.amdanor_spawner": "Amdanor Spawner",
   "block.liaveres.gilded_netherite_block": "Gilded Netherite Block",
 
-  "entity.liaveres.amdanor_skeleton": "Amdanor Skeleton",
+  "entity.liaveres.amdanor": "Amdanor",
 
   "itemGroup.liaveres.classic_tab": "LiaVeres: Standard Tab",
   "itemGroup.liaveres.artifact_tab": "LiaVeres: Artifact Tab",

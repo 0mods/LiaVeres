@@ -1,6 +1,7 @@
 package com.algorithmlx.liaveres.common.integrated.curios.handler;
 
 import com.algorithmlx.liaveres.common.setup.Registration;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +23,14 @@ public class TheEffectsRingCuriosHandler implements ICurio {
     public void curioTick(SlotContext slotContext) {
         LivingEntity entity = slotContext.entity();
 
+        entity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 300));
+        entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION));
+        entity.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING));
+        entity.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED));
+        entity.addEffect(new MobEffectInstance(MobEffects.SATURATION));
+        entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST));
+        entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE));
+        entity.addEffect(new MobEffectInstance(MobEffects.LUCK));
     }
 
     @Override

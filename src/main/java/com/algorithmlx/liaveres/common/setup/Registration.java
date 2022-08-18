@@ -76,9 +76,8 @@ public class Registration {
     }
 
     public static final RegistryObject<Block> MATTER_CRYSTAL_BLOCK =
-        register("matter_crystal_block", ()->
-                        new Block(BlockBehaviour.Properties.of(Material.METAL)
-                                .strength(Float.MAX_VALUE, Float.MAX_VALUE).requiresCorrectToolForDrops()),
+        register("matter_crystal_block", ()-> new Block(BlockBehaviour.Properties.of(Material.METAL)
+                        .strength(Float.MAX_VALUE, Float.MAX_VALUE).requiresCorrectToolForDrops()),
         block -> new BlockItem(block, new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
     public static final RegistryObject<Block> AMDANOR_SPAWNER = register("amdanor_spawner", AmdanorSpawner::new,
             block -> new BlockItem(block, new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
@@ -197,7 +196,7 @@ public class Registration {
     public static final RegistryObject<LiquidRecipeSerializers<YarnRecipe>> YARN_RECIPE = RECIPE.register("yarn",
             ()-> new LiquidRecipeSerializers<>(YarnRecipe::new));
 
-    public static final RegistryObject<Codec<OreModifier>> ORE_CODEC = MODIFIER_CODEC.register("ore",
+    public static final RegistryObject<Codec<OreModifier>> ORE_CODEC = MODIFIER_CODEC.register("ore_gen_codec",
             ()-> RecordCodecBuilder.create(BUILDER -> BUILDER.group(
                     Biome.LIST_CODEC.fieldOf("biomes").forGetter(OreModifier::biomes),
                     PlacedFeature.CODEC.fieldOf("feature").forGetter(OreModifier::feature)

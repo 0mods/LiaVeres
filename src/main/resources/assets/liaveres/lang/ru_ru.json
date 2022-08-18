@@ -44,7 +44,7 @@
   "block.liaveres.amdanor_spawner": "Призыватель Амданора",
   "block.liaveres.gilded_netherite_block": "Золочёный незеритовый блок",
 
-  "entity.liaveres.amdanor_skeleton": "Скелет Амданора",
+  "entity.liaveres.amdanor": "Амданор",
 
   "itemGroup.liaveres.classic_tab": "LiaVeres: Обычная группа",
   "itemGroup.liaveres.artifact_tab": "LiaVeres: Группа артефактов",

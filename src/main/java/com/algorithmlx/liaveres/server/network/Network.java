@@ -25,7 +25,7 @@ public class Network {
         simpleChannel.messageBuilder(OpenScreenPacket.class, nextID())
                 .encoder(((openScreenPacket, friendlyByteBuf) -> {}))
                 .decoder(friendlyByteBuf -> new OpenScreenPacket())
-                .consumer(OpenScreenPacket::liaBookHandler)
+                .consumerMainThread(OpenScreenPacket::liaBookHandler)
                 .add();
     }
 

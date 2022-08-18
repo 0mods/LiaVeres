@@ -1,6 +1,6 @@
 package com.algorithmlx.liaveres.common.item.armor;
 
-import com.algorithmlx.liaveres.common.LiaVeres;
+import com.algorithmlx.liaveres.common.entity.Amdanor;
 import com.algorithmlx.liaveres.common.item.material.LVArmorMaterial;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.common.setup.ModSetup;
@@ -14,6 +14,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
@@ -39,8 +41,8 @@ public class MatterCrystalArmor extends ArmorItem {
         MinecraftForge.EVENT_BUS.addListener(this::cancelDamage);
     }
 
-    public void updatePlayerData(LivingEvent.LivingUpdateEvent event) {
-        LivingEntity livingEntity = event.getEntityLiving();
+    public void updatePlayerData(LivingEvent.LivingTickEvent event) {
+        LivingEntity livingEntity = event.getEntity();
 
         ItemStack head = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
         ItemStack chest = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
@@ -62,7 +64,7 @@ public class MatterCrystalArmor extends ArmorItem {
     }
 
     public void cancelDamage(LivingDamageEvent event) {
-        LivingEntity entity = event.getEntityLiving();
+        LivingEntity entity = event.getEntity();
         Random random = new Random();
 
         ItemStack head = entity.getItemBySlot(EquipmentSlot.HEAD);
@@ -75,16 +77,15 @@ public class MatterCrystalArmor extends ArmorItem {
                         chest.getItem() == Registration.MATTER_CRYSTAL_CHESTPLATE.get() &&
                         legs.getItem() == Registration.MATTER_CRYSTAL_LEGS.get() &&
                         feet.getItem() == Registration.MATTER_CRYSTAL_BOOTS.get();
-        if (event.isCanceled() || event.getAmount() <= 0 || event.getEntityLiving().getLevel().isClientSide()) {
-            return;
-        }
+
+        if (event.isCanceled() || event.getAmount() <= 0 || event.getEntity().getLevel().isClientSide()) return;
 
         if (!isFullMatterCrystalArmor) return;
 
+        if (entity instanceof Amdanor amdanor)
+            event.setAmount(((float) amdanor.getAttributes().getBaseValue(Attributes.ATTACK_DAMAGE) / 10));
 
-        if (random.nextInt(Integer.MAX_VALUE) > 0) {
-            event.setCanceled(true);
-        }
+        if (random.nextDouble(Double.MAX_VALUE) > 0) event.setCanceled(true);
     }
 
     @Override
@@ -178,13 +179,24 @@ public class MatterCrystalArmor extends ArmorItem {
         super.appendHoverText(p_41421_, p_41422_, p_41423_, p_41424_);
     }
 
+//    @Override
+//    public boolean hasContainerItem(ItemStack stack) {
+//        return true;
+//    }
+//
+//    @Override
+//    public ItemStack getContainerItem(ItemStack stack) {
+//        return stack.copy();
+//    }
+
+
     @Override
-    public boolean hasContainerItem(ItemStack stack) {
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
         return true;
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack) {
-        return stack.copy();
+    public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
+        return itemStack.copy();
     }
 }

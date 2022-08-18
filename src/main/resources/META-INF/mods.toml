@@ -22,7 +22,7 @@ versionRange = "[1.19,)"
 [[dependencies.liaveres]]
 modId = "curios"
 mandatory = false
-versionRange = "[1.19-5.1.0.0,)"
+versionRange = "[1.19-5.1.0.4,)"
 
 [[dependencies.liaveres]]
 modId = "liquid"

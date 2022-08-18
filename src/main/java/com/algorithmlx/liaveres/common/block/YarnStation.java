@@ -46,7 +46,7 @@ public class YarnStation extends BaseEntityBlock {
         if (!pLevel.isClientSide()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof YarnStationBlockEntity entity) {
-                NetworkHooks.openGui((ServerPlayer) pPlayer, entity, pPos);
+                NetworkHooks.openScreen((ServerPlayer) pPlayer, entity, pPos);
             } else {
                 throw new IllegalStateException("Menu provider for " + YarnStation.class.getName() + " is missing!");
             }

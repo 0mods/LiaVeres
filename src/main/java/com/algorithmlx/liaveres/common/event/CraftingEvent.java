@@ -8,7 +8,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
 
 import java.util.List;
 
@@ -16,12 +17,12 @@ import java.util.List;
 //@Mod.EventBusSubscriber(modid = LiaVeres.ModId, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CraftingEvent {
 //    @SubscribeEvent
-    public void init(EntityJoinWorldEvent event) {
+    public void init(EntityJoinLevelEvent event) {
         Entity e = event.getEntity();
         EntityType<?> et = e.getType();
         if (et == EntityType.LIGHTNING_BOLT) {
             BlockPos pos = event.getEntity().blockPosition();
-            Level level = event.getWorld();
+            Level level = event.getLevel();
 
             ItemEntity itemEntity = (ItemEntity) e;
             Item item = itemEntity.getItem().getItem();

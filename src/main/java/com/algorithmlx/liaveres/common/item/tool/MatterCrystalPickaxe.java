@@ -58,12 +58,12 @@ public class MatterCrystalPickaxe extends PickaxeItem {
         super.appendHoverText(pItemStack, p_41422_, p_41423_, p_41424_);
     }
     @Override
-    public boolean hasContainerItem(ItemStack stack) {
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
         return true;
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack) {
-        return stack.copy();
+    public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
+        return itemStack.copy();
     }
 }
