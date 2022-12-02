@@ -12,19 +12,19 @@ description = ''''''
 [[dependencies.liaveres]]
 modId = "forge"
 mandatory = true
-versionRange = "[41,)"
+versionRange = "[43,)"
 
 [[dependencies.liaveres]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19,)"
+versionRange = "[1.19.2,1.19.3)"
 
 [[dependencies.liaveres]]
 modId = "curios"
 mandatory = false
-versionRange = "[1.19-5.1.0.4,)"
+versionRange = "[1.19.2-1.1.0,)"
 
 [[dependencies.liaveres]]
 modId = "liquid"
 mandatory = true
-versionRange = "[1.19_1.5.1,1.19_1.6)"
+versionRange = "[1.19.2_1.0.0,1.19.2_1.1.0)"

@@ -128,6 +128,8 @@ public class Amdanor extends AbstractSkeleton {
     }
 
     public static AttributeSupplier.Builder prepareAttributes() {
+
+
         return AttributeSupplier.builder()
                 .add(Attributes.ATTACK_DAMAGE, 20000000000f)
                 .add(Attributes.MAX_HEALTH, Double.MAX_VALUE)
@@ -152,13 +154,15 @@ public class Amdanor extends AbstractSkeleton {
     @Override
     public void tick() {
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
-
-        while (player.getAbilities().mayfly) {
+        this.bossHP = this.getMaxHealth();
+        if (player.getAbilities().mayfly) {
             player.getAbilities().mayfly = false;
             player.sendSystemMessage(Component.translatable("msg." + Constants.ModId + ".amdanor.blocking"));
         }
 
-        while (player.gameMode.isCreative() || player.gameMode.isSurvival()) player.setGameMode(GameType.ADVENTURE);
+
+
+        if (player.gameMode.isCreative() || player.gameMode.isSurvival()) player.setGameMode(GameType.ADVENTURE);
     }
 
     public BossEvent.BossBarColor getBarColor() {

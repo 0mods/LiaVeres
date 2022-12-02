@@ -1,21 +1,39 @@
 package com.algorithmlx.liaveres.common.entity;
 
-public enum AmdanorStages {
-    STAGE_1(0),
-    STAGE_2(1),
-    STAGE_3(2);
+import net.minecraft.network.chat.Component;
 
-    private int stageId;
+import static com.algorithmlx.liaveres.common.setup.Constants.ModId;
 
-    AmdanorStages(int stageId) {
-        this.stageId = stageId;
+public enum AmdanorStages implements AmdanorStage {
+    START_STAGE(Component.translatable("stage." + ModId + ".amdanor.start"), 3600, 250);
+
+    final Component stageName;
+    final double health;
+    final double damage;
+
+    AmdanorStages(Component stageName, double health, double damage) {
+        this.stageName = stageName;
+
+        this.health = health;
+        this.damage = damage;
     }
 
-    public static AmdanorStages[] getStages() {
-        return AmdanorStages.values();
+    public static AmdanorStage currentStage(int stageId) {
+        return AmdanorStages.values()[stageId];
     }
 
-    public static AmdanorStages setStage(AmdanorStages stage) {
-        return stage;
+    @Override
+    public Component stageName() {
+        return this.stageName;
+    }
+
+    @Override
+    public double healthInStage() {
+        return this.health;
+    }
+
+    @Override
+    public double damageInStage() {
+        return this.damage;
     }
 }
