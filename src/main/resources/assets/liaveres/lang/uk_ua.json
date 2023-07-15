@@ -44,12 +44,10 @@
 
   "entity.liaveres.amdanor": "Амданор",
 
-  "itemGroup.liaveres.classic_tab": "LiaVeres: Звичайна група",
-  "itemGroup.liaveres.artifact_tab": "LiaVeres: Група артефактов",
-  "itemGroup.liaveres.mobs_tab": "LiaVeres: Група істот",
+  "itemGroup.liaveres.classic_tab": "LiaVeres",
 
   "msg.liaveres.effect_catalyst": "Коли з'еднанно з незеритовою бронею, трансформує її у броню Ліа",
-  "msg.liaveres.matter_crystal_armor": "§4Повний §bодягненний набор броні Ліа дає можливість літати і дає позитивні єффекти, а також відклонює урон, який ви отримали",
+  "msg.liaveres.matter_crystal_armor": "§4Повний §bодягненний набор броні кристала матерії дає можливість літати і дає позитивні єффекти, а також відклонює урон, який ви отримали",
   "msg.liaveres.matter_crystal_msg": "БЕЗКІНЕЧНИЙ",
   "msg.liaveres.matter_crystal_pickaxe": "Натисніть §fПКМ §2що б зламати зону 32 на 32",
   "msg.liaveres.enchanted_apple": "Основний компонент для крафтів",

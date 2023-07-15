@@ -1,13 +1,14 @@
 package com.algorithmlx.liaveres.common.recipe;
 
-import com.algorithmlx.liaveres.common.setup.Registration;
-import liquid.recipes.LiquidRecipes;
+import com.algorithmlx.liaveres.api.recipe.LVAbstractRecipe;
+import com.algorithmlx.liaveres.common.menu.container.YarnResultContainer;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
-public class YarnRecipe extends LiquidRecipes {
+public class YarnRecipe extends LVAbstractRecipe<YarnResultContainer> {
     protected final Ingredient ingredient;
     public YarnRecipe(ResourceLocation idIn, Ingredient ingredientIn, ItemStack resultIn, float xp, int time) {
         super(RecipeTypes.YARN_RECIPE_TYPE, idIn, ingredientIn,  resultIn, xp,time);
@@ -17,6 +18,6 @@ public class YarnRecipe extends LiquidRecipes {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return Registration.YARN_RECIPE.get();
+        return LVRegister.YARN_RECIPE.get();
     }
 }

@@ -1,9 +1,9 @@
 package com.algorithmlx.liaveres.common.item.armor;
 
-import com.algorithmlx.liaveres.common.item.material.LVArmorMaterial;
+import com.algorithmlx.liaveres.common.item.material.LVArmorMaterials;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.common.setup.ModSetup;
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -14,8 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class GildedNetheriteArmor extends ArmorItem {
-    public GildedNetheriteArmor(EquipmentSlot pSlot) {
-        super(LVArmorMaterial.GILDED_NETHERITE, pSlot, new Properties().rarity(Constants.getLegendary).fireResistant().tab(ModSetup.CLASSIC_TAB));
+    public GildedNetheriteArmor(ArmorItem.Type pSlot) {
+        super(LVArmorMaterials.GILDED_NETHERITE, pSlot, new Properties().rarity(Constants.getLegendary()).fireResistant());
     }
 
     @Override
@@ -26,10 +26,10 @@ public class GildedNetheriteArmor extends ArmorItem {
         ItemStack feet = player.getItemBySlot(EquipmentSlot.FEET);
 
         boolean isFullGoldenNetheriteArmor =
-                head.getItem() == Registration.GILDED_NETHERITE_HELMET.get() &&
-                chest.getItem() == Registration.GILDED_NETHERITE_CHESTPLATE.get() &&
-                legs.getItem() == Registration.GILDED_NETHERITE_LEGS.get() &&
-                feet.getItem() == Registration.GILDED_NETHERITE_BOOTS.get();
+                head.getItem() == LVRegister.GILDED_NETHERITE_HELMET.get() &&
+                chest.getItem() == LVRegister.GILDED_NETHERITE_CHESTPLATE.get() &&
+                legs.getItem() == LVRegister.GILDED_NETHERITE_LEGS.get() &&
+                feet.getItem() == LVRegister.GILDED_NETHERITE_BOOTS.get();
         if (isFullGoldenNetheriteArmor) {
             MobEffectInstance effectInstance;
             MobEffectInstance effectInstance1;

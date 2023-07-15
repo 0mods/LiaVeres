@@ -16,7 +16,7 @@ import java.util.List;
 
 public class EffectCatalyst extends Item {
     public EffectCatalyst() {
-        super(new Item.Properties().fireResistant().tab(ModSetup.CLASSIC_TAB));
+        super(new Item.Properties().fireResistant());
     }
 
     @OnlyIn(Dist.CLIENT)

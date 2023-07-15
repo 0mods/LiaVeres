@@ -12,8 +12,8 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-public class AmdanorMobModel<T extends Mob & RangedAttackMob> extends HumanoidModel<T> {
-    public AmdanorMobModel(ModelPart p_170677_) {
+public class AmdanorModel<T extends Mob & RangedAttackMob> extends HumanoidModel<T> {
+    public AmdanorModel(ModelPart p_170677_) {
         super(p_170677_);
     }
 

@@ -1,17 +1,23 @@
 package com.algorithmlx.liaveres.common.menu.slots;
 
+import com.algorithmlx.liaveres.common.menu.container.YarnResultContainer;
 import com.algorithmlx.liaveres.common.recipe.RecipeTypes;
 import com.algorithmlx.liaveres.common.recipe.YarnRecipe;
 import com.algorithmlx.liaveres.common.menu.container.YarnCraftContainer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.RecipeHolder;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class YarnOutputResultSlot extends Slot {
@@ -52,13 +58,16 @@ public class YarnOutputResultSlot extends Slot {
 
     @Override
     protected void checkTakeAchievements(ItemStack pStack) {
+        List<ItemStack> stacks = new ArrayList<>();
+        stacks.add(pStack);
+
         if (this.removeCount > 0) {
-            pStack.onCraftedBy(this.player.getLevel(), this.player, this.removeCount);
+            pStack.onCraftedBy(this.player.level(), this.player, this.removeCount);
             ForgeEventFactory.firePlayerCraftingEvent(this.player, pStack, this.craftSlots);
         }
 
         if (this.container instanceof RecipeHolder holder) {
-            holder.awardUsedRecipes(this.player);
+            holder.awardUsedRecipes(this.player, stacks);
         }
 
         this.removeCount = 0;
@@ -68,9 +77,10 @@ public class YarnOutputResultSlot extends Slot {
     public void onTake(Player pPlayer, ItemStack pStack) {
         this.checkTakeAchievements(pStack);
         ForgeHooks.setCraftingPlayer(pPlayer);
-        Optional<YarnRecipe> recipe = pPlayer.getLevel().getRecipeManager().getRecipeFor(RecipeTypes.YARN_RECIPE_TYPE, this.craftSlots, pPlayer.level);
+        YarnResultContainer container1 = new YarnResultContainer();
+        Optional<YarnRecipe> recipe = pPlayer.level().getRecipeManager().getRecipeFor(RecipeTypes.YARN_RECIPE_TYPE, container1, pPlayer.level());
 
-        NonNullList<ItemStack> nonNullList = pPlayer.level.getRecipeManager().getRemainingItemsFor(RecipeTypes.YARN_RECIPE_TYPE, this.craftSlots, pPlayer.level);
+        NonNullList<ItemStack> nonNullList = pPlayer.level().getRecipeManager().getRemainingItemsFor(RecipeTypes.YARN_RECIPE_TYPE, container1, pPlayer.level());
         ForgeHooks.setCraftingPlayer(null);
         for (int integer = 0; integer < nonNullList.size(); ++integer) {
             ItemStack original = this.craftSlots.getItem(integer);
@@ -88,7 +98,7 @@ public class YarnOutputResultSlot extends Slot {
             if (!itemFromList.isEmpty()) {
                 if (original.isEmpty()) {
                     this.craftSlots.setItem(integer, itemFromList);
-                } else if (ItemStack.isSame(original, itemFromList) && ItemStack.tagMatches(original, itemFromList)) {
+                } else if (ItemStack.isSameItemSameTags(original, itemFromList) && ItemStack.matches(original, itemFromList)) {
                     itemFromList.grow(original.getCount());
                     this.craftSlots.setItem(integer, itemFromList);
                 } else if (!this.player.getInventory().add(itemFromList)) {

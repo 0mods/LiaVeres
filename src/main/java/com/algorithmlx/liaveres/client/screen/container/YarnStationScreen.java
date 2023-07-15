@@ -4,6 +4,7 @@ import com.algorithmlx.liaveres.common.menu.YarnStationContainerMenu;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -16,20 +17,16 @@ public class YarnStationScreen extends AbstractContainerScreen<YarnStationContai
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        this.renderBackground(pPoseStack);
-        this.renderBg(pPoseStack, pPartialTick, pMouseX, pMouseY);
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-        this.renderTooltip(pPoseStack, pMouseX, pMouseY);
+    public void render(GuiGraphics p_283479_, int p_283661_, int p_281248_, float p_281886_) {
+        this.renderBackground(p_283479_);
+        this.renderBg(p_283479_, p_281886_, p_283661_, p_281248_);
+        super.render(p_283479_, p_283661_, p_281248_, p_281886_);
+        this.renderTooltip(p_283479_, p_283661_, p_281248_);
     }
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(Constants.ModId, "textures/gui/yarn_station.png"));
-        int x = (this.width - this.imageWidth) / 2;
-        int y = (this.height - this.imageHeight) / 2;
-        this.blit(pPoseStack, x, y, 0, 0, this.imageWidth, this.imageHeight);
+    protected void renderBg(GuiGraphics p_283065_, float p_97788_, int p_97789_, int p_97790_) {
+
     }
+
 }

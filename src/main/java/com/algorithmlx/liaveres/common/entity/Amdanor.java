@@ -1,7 +1,7 @@
 package com.algorithmlx.liaveres.common.entity;
 
 import com.algorithmlx.liaveres.common.setup.Constants;
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;
@@ -94,7 +94,7 @@ public class Amdanor extends AbstractSkeleton {
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource p_218949_, DifficultyInstance p_218950_) {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
-        this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Registration.MATTER_SHARD.get()));
+        this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(LVRegister.MATTER_SHARD.get()));
     }
 
     @Nullable
@@ -140,7 +140,7 @@ public class Amdanor extends AbstractSkeleton {
 
     @Override
     protected void dropCustomDeathLoot(DamageSource pDamageSource, int pLooting, boolean pRecentlyHit) {
-        ItemEntity itemEntity = this.spawnAtLocation(Registration.MATTER_SHARD.get(), 4);
+        ItemEntity itemEntity = this.spawnAtLocation(LVRegister.MATTER_SHARD.get(), 4);
         if (itemEntity != null) {
             itemEntity.setExtendedLifetime();
         }

@@ -1,7 +1,7 @@
 package com.algorithmlx.liaveres.common.block;
 
 import com.algorithmlx.liaveres.common.setup.Constants;
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -18,14 +18,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
+
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
 public class AmdanorSpawner extends Block {
     public AmdanorSpawner() {
-        super(Properties.of(Material.METAL).strength(-1F, 340282356779733661637539395458142568447F).noOcclusion());
+        super(Properties.of().strength(-1F, 340282356779733661637539395458142568447F).noOcclusion());
     }
 
     @Override
@@ -41,10 +41,10 @@ public class AmdanorSpawner extends Block {
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
         ItemStack mainItem = pPlayer.getMainHandItem();
-        Item activator = Registration.AMDANOR_UNLOCKER_KEY.get();
+        Item activator = LVRegister.AMDANOR_UNLOCKER_KEY.get();
         if (!pLevel.isClientSide) {
             if ((pLevel.getDifficulty() != Difficulty.PEACEFUL) && (mainItem.getItem() == activator && pHand == InteractionHand.MAIN_HAND)) {
-                Registration.AMDANOR.get().spawn((ServerLevel) pLevel, mainItem, pPlayer, pPos, MobSpawnType.SPAWN_EGG, true, false);
+                LVRegister.AMDANOR.get().spawn((ServerLevel) pLevel, mainItem, pPlayer, pPos, MobSpawnType.SPAWN_EGG, true, false);
                 if (!pPlayer.isCreative()) {
                     mainItem.shrink(1);
                 }

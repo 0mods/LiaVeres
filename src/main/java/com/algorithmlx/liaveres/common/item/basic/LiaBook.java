@@ -21,7 +21,7 @@ import java.util.List;
 
 public class LiaBook extends Item {
     public LiaBook() {
-        super(new Item.Properties().tab(ModSetup.CLASSIC_TAB).fireResistant().stacksTo(1));
+        super(new Item.Properties().fireResistant().stacksTo(1));
     }
 
     @OnlyIn(Dist.CLIENT)

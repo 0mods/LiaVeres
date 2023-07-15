@@ -6,8 +6,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class OpenScreenPacket {
-    public boolean liaBookHandler(Supplier<NetworkEvent.Context> contextSupplier) {
+    public void liaBookHandler(Supplier<NetworkEvent.Context> contextSupplier) {
         contextSupplier.get().enqueueWork(LiaBookScreen::open);
-        return true;
     }
 }

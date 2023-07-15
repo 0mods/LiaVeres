@@ -1,14 +1,12 @@
 package com.algorithmlx.liaveres.proxy;
 
-import com.algorithmlx.liaveres.client.render.AmdanorMobRender;
+import com.algorithmlx.liaveres.api.network.Direction;
+import com.algorithmlx.liaveres.client.render.AmdanorRender;
 import com.algorithmlx.liaveres.client.screen.container.YarnStationScreen;
 import com.algorithmlx.liaveres.common.setup.Constants;
-import com.algorithmlx.liaveres.common.setup.Registration;
-import liquid.network.Direction;
-import net.minecraft.CrashReport;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,15 +21,15 @@ import java.util.Objects;
 public class ClientProxy implements Direction {
     @SubscribeEvent
     public static void doClient(final FMLClientSetupEvent event) {
-        if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.getGameProfile().getName().equals("AlgorithmLX"))
-            Minecraft.crash(new CrashReport(Component.translatable("developer.crash.desc").toString(), new Throwable()));
+//        if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.getGameProfile().getName().equals("AlgorithmLX"))
+//            Minecraft.crash(new CrashReport(Component.translatable("developer.crash.desc").toString(), new Throwable()));
 
-        MenuScreens.register(Registration.YARN_STATION_CONTAINER.get(), YarnStationScreen::new);
+        MenuScreens.register(LVRegister.YARN_STATION_CONTAINER.get(), YarnStationScreen::new);
     }
 
     @SubscribeEvent
     public static void entityRender(final EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(Registration.AMDANOR.get(), AmdanorMobRender::new);
+        event.registerEntityRenderer(LVRegister.AMDANOR.get(), AmdanorRender::new);
     }
 
     @Override
@@ -40,13 +38,13 @@ public class ClientProxy implements Direction {
     }
 
     @Override
-    public boolean clientSide() {
+    public boolean client() {
         return true;
     }
 
     @Override
     public Level clientLevel() {
-        return Objects.requireNonNull(Minecraft.getInstance().player).level;
+        return Objects.requireNonNull(Minecraft.getInstance().player).level();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.algorithmlx.liaveres.client.render;
 
-import com.algorithmlx.liaveres.client.model.AmdanorMobModel;
+import com.algorithmlx.liaveres.client.model.AmdanorModel;
 import com.algorithmlx.liaveres.common.entity.Amdanor;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,16 +12,16 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class AmdanorMobRender extends HumanoidMobRenderer<Amdanor, AmdanorMobModel<Amdanor>> {
+public class AmdanorRender extends HumanoidMobRenderer<Amdanor, AmdanorModel<Amdanor>> {
     public static final float mobScale = 0.75F;
     private static final ResourceLocation MOB_TEXTURE = new ResourceLocation(Constants.ModId, "textures/entity/amdanor_skeleton.png");
 
-    public AmdanorMobRender(EntityRendererProvider.Context context) {
+    public AmdanorRender(EntityRendererProvider.Context context) {
         this(context, ModelLayers.SKELETON, ModelLayers.SKELETON_INNER_ARMOR, ModelLayers.SKELETON_OUTER_ARMOR);
     }
-    public AmdanorMobRender(EntityRendererProvider.Context context, ModelLayerLocation location, ModelLayerLocation location1, ModelLayerLocation location2) {
-        super(context, new AmdanorMobModel<>(context.bakeLayer(location)), 0.5f);
-        this.addLayer(new HumanoidArmorLayer<>(this, new AmdanorMobModel<>(context.bakeLayer(location1)), new AmdanorMobModel<>(context.bakeLayer(location2))));
+    public AmdanorRender(EntityRendererProvider.Context context, ModelLayerLocation location, ModelLayerLocation location1, ModelLayerLocation location2) {
+        super(context, new AmdanorModel<>(context.bakeLayer(location)), 0.5f);
+        this.addLayer(new HumanoidArmorLayer<>(this, new AmdanorModel<>(context.bakeLayer(location1)), new AmdanorModel<>(context.bakeLayer(location2)), context.getModelManager()));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class AmdanorMobRender extends HumanoidMobRenderer<Amdanor, AmdanorMobMod
     }
 
     @Override
-    protected void scale(Amdanor mob, PoseStack poseStack, float partialTickTime) {
+    protected void scale(@NotNull Amdanor mob, PoseStack poseStack, float partialTickTime) {
         poseStack.scale(mobScale, mobScale, mobScale);
     }
 }

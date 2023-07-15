@@ -1,26 +1,23 @@
 buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        mavenCentral()
-    }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
+
+plugins {
+    id "net.minecraftforge.gradle" version "5.+"
+}
+
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
 
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'org.spongepowered.mixin'
 
 String ForgeVersion = "${mc_version}-${forge_version}"
-//String mappingVersion = "${mapps_ver}-${mc_version}"
 String lv_version = "${mc_version}-${type_version}${version_mod}"
 String CurioVersion = "${mc_version}-${curios_version}"
 
@@ -33,8 +30,7 @@ java {
 }
 
 minecraft {
-//    mappings channel: 'parchment', version: mappingVersion
-    mappings channel: 'official', version: "1.19"
+    mappings channel: 'official', version: "${mc_version}"
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -110,15 +106,8 @@ repositories {
 
     maven {
         name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
+        url = "https://modmaven.dev/"
     }
-
-//    maven {
-//        url "https://cursemaven.com"
-//        content {
-//            includeGroup "curse.maven"
-//        }
-//    }
 
     maven {
         url = "https://maven.theillusivec4.top/"
@@ -132,15 +121,17 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:$ForgeVersion"
 
-    implementation fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
-    implementation fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
-    implementation fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
-
-    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${CurioVersion}")
-    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${CurioVersion}:api")
-    implementation fg.deobf("com.algorithmlx:liquid:${mc_version}_${lc_version}")
+//    implementation fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
+//    implementation fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
+//    implementation fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
+//
+//    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${CurioVersion}")
+//    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${CurioVersion}:api")
+//    implementation fg.deobf("com.algorithmlx:liquid:${mc_version}_${lc_version}")
 //    implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${mc_version}:$ct_version")
+    compileOnly("org.projectlombok:lombok:1.18.28")
 
+    annotationProcessor("org.projectlombok:lombok:1.18.28")
     annotationProcessor 'org.spongepowered:mixin:0.8:processor'
 //    annotationProcessor "com.blamejared.crafttweaker:Crafttweaker_Annotation_Processors-$mc_version:$ct_annotation"
 }

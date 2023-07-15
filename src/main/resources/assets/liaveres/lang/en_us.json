@@ -1,6 +1,4 @@
 {
-  "_comment": "Translation help There: https://github.com/AlgorithmLX-Team/TranslateHelp/",
-
   "item.liaveres.matter_crystal": "Matter Crystal",
   "item.liaveres.matter": "Matter",
   "item.liaveres.crystalline": "Crystalline",
@@ -46,9 +44,7 @@
 
   "entity.liaveres.amdanor": "Amdanor",
 
-  "itemGroup.liaveres.classic_tab": "LiaVeres: Standard Tab",
-  "itemGroup.liaveres.artifact_tab": "LiaVeres: Artifact Tab",
-  "itemGroup.liaveres.mobs_tab": "LiaVeres: Mob Tab",
+  "itemGroup.liaveres.classic_tab": "LiaVeres",
 
   "msg.liaveres.effect_catalyst": "In conjunction with the Netherite Armor, it transforms Netherite Armor into Matter Crystal Armor, which will easily lift you into the air.",
   "msg.liaveres.matter_crystal_armor": "§bA §4full, §bdressed set of armor gives flight, and effects",

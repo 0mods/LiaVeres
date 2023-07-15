@@ -1,17 +1,16 @@
 package com.algorithmlx.liaveres.common.item.material;
 
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
+@Deprecated(forRemoval = true)
 public enum LVArmorMaterial implements ArmorMaterial {
     MATTER_CRYSTAL(
             "matter_crystal",
@@ -26,7 +25,7 @@ public enum LVArmorMaterial implements ArmorMaterial {
             SoundEvents.ARMOR_EQUIP_NETHERITE,
             Float.MAX_VALUE,
             Float.MAX_VALUE,
-            ()-> Ingredient.of(Registration.MATTER_CRYSTAL.get())
+            ()-> Ingredient.of(LVRegister.MATTER_CRYSTAL.get())
     ),
     MATTER(
             "matter",
@@ -41,7 +40,7 @@ public enum LVArmorMaterial implements ArmorMaterial {
             SoundEvents.ARMOR_EQUIP_DIAMOND,
             20F,
             0.5F,
-            ()-> Ingredient.of(Registration.MATTER.get())
+            ()-> Ingredient.of(LVRegister.MATTER.get())
     ),
    GILDED_NETHERITE(
             "gilded_netherite",
@@ -56,7 +55,7 @@ public enum LVArmorMaterial implements ArmorMaterial {
             SoundEvents.ARMOR_EQUIP_NETHERITE,
             3.0f,
             1f,
-            ()-> Ingredient.of(Registration.GILDED_NETHERITE_INGOT.get())
+            ()-> Ingredient.of(LVRegister.GILDED_NETHERITE_INGOT.get())
     );
 
     private static final int[] armorDurability =  new int[]{13, 15, 16, 11};
@@ -82,13 +81,17 @@ public enum LVArmorMaterial implements ArmorMaterial {
     }
 
     @Override
-    public int getDurabilityForSlot(EquipmentSlot slot) {
-        return armorDurability[slot.getIndex()] * this.maxDamageFactor;
+    public int getDurabilityForType(ArmorItem.Type p_266807_) {
+        var slot = p_266807_.getSlot();
+
+        return armorDurability[slot.getIndex()] * maxDamageFactor;
     }
 
     @Override
-    public int getDefenseForSlot(EquipmentSlot slot) {
-        return this.damageReductionAmountArray[slot.getIndex()];
+    public int getDefenseForType(ArmorItem.Type p_267168_) {
+        var slot = p_267168_.getSlot();
+
+        return damageReductionAmountArray[slot.getIndex()];
     }
 
     @Override
@@ -106,7 +109,6 @@ public enum LVArmorMaterial implements ArmorMaterial {
         return this.repairMaterial.get();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public @NotNull String getName() {
         return this.name;
     }

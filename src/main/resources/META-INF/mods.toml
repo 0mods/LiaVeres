@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[41,)"
+loaderVersion = "[47,)"
 license = "MIT"
 
 [[mods]]
@@ -12,19 +12,19 @@ description = ''''''
 [[dependencies.liaveres]]
 modId = "forge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "[47.1.14,)"
 
 [[dependencies.liaveres]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.2,1.19.3)"
+versionRange = "[1.20.1, 1.21)"
 
-[[dependencies.liaveres]]
-modId = "curios"
-mandatory = false
-versionRange = "[1.19.2-1.1.0,)"
-
-[[dependencies.liaveres]]
-modId = "liquid"
-mandatory = true
-versionRange = "[1.19.2_1.0.0,1.19.2_1.1.0)"
+#[[dependencies.liaveres]]
+#modId = "curios"
+#mandatory = false
+#versionRange = "[1.19.2-1.1.0,)"
+#
+#[[dependencies.liaveres]]
+#modId = "liquid"
+#mandatory = true
+#versionRange = "[1.19.2_1.0.0,1.19.2_1.1.0)"

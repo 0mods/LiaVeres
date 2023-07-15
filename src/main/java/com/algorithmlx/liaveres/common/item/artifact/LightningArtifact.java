@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class LightningArtifact extends Item {
     public LightningArtifact() {
-        super(new Properties().durability(10000).tab(ModSetup.ARTIFACT_TAB).rarity(Rarity.EPIC).fireResistant());
+        super(new Properties().durability(10000).rarity(Rarity.EPIC).fireResistant());
     }
 
     @Override
@@ -33,7 +33,7 @@ public class LightningArtifact extends Item {
         double y = pos.getTo().y;
         double z = pos.getTo().z;
 
-        world.getBlockState(new BlockPos(x, y, z));
+        world.getBlockState(new BlockPos((int) x, (int) y, (int) z));
         LightningBolt bolt1 = new LightningBolt(EntityType.LIGHTNING_BOLT, world),
                 bolt2 = new LightningBolt(EntityType.LIGHTNING_BOLT, world),
                 bolt3 = new LightningBolt(EntityType.LIGHTNING_BOLT, world);

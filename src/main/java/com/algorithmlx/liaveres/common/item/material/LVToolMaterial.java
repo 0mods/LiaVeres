@@ -1,6 +1,6 @@
 package com.algorithmlx.liaveres.common.item.material;
 
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
+@Deprecated(forRemoval = true)
 public enum LVToolMaterial implements Tier {
     MATTER_CRYSTAL(
             2147483647,
@@ -23,7 +24,7 @@ public enum LVToolMaterial implements Tier {
             36.0F,
             16.0F,
             60,
-            ()-> Ingredient.of(new ItemStack(Registration.GILDED_NETHERITE_INGOT.get(), 5))
+            ()-> Ingredient.of(new ItemStack(LVRegister.GILDED_NETHERITE_INGOT.get(), 5))
     );
     private final int harvestLevel;
     private final int maxUses;

@@ -19,7 +19,9 @@ public enum AmdanorStages implements AmdanorStage {
     }
 
     public static AmdanorStage currentStage(int stageId) {
-        return AmdanorStages.values()[stageId];
+        if (stageId > 0 && stageId < AmdanorStages.values().length)
+            return AmdanorStages.values()[stageId];
+        else return AmdanorStages.START_STAGE;
     }
 
     @Override

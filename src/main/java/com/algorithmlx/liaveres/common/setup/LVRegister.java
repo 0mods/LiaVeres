@@ -1,5 +1,9 @@
 package com.algorithmlx.liaveres.common.setup;
 
+import com.algorithmlx.liaveres.api.recipe.LVRecipeSerializer;
+import com.algorithmlx.liaveres.api.util.ContainedItem;
+import com.algorithmlx.liaveres.api.util.container.SizedContainer;
+import com.algorithmlx.liaveres.api.util.tools.ContainedItemBuilder;
 import com.algorithmlx.liaveres.common.block.*;
 import com.algorithmlx.liaveres.common.block.entity.YarnStationBlockEntity;
 import com.algorithmlx.liaveres.common.entity.*;
@@ -9,19 +13,16 @@ import com.algorithmlx.liaveres.common.item.artifact.*;
 import com.algorithmlx.liaveres.common.item.basic.*;
 import com.algorithmlx.liaveres.common.item.tool.*;
 import com.algorithmlx.liaveres.common.item.food.*;
+import com.algorithmlx.liaveres.common.menu.container.YarnResultContainer;
 import com.algorithmlx.liaveres.common.recipe.*;
 import com.algorithmlx.liaveres.common.world.levelgen.OreModifier;
 import com.algorithmlx.liaveres.common.world.structures.*;
 import com.algorithmlx.liaveres.common.menu.*;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.RecordBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liquid.dynamic.item.DynamicItem;
-import liquid.objects.data.container.DynamicContainerData;
-import liquid.recipes.LiquidRecipeSerializers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
@@ -37,26 +38,28 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuppressWarnings("all")
-public class Registration {
+public class LVRegister {
+    public static final DeferredRegister<CreativeModeTab> TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.ModId);
     public static final DeferredRegister<Item> ITEM = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.ModId);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.ModId);
     public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Constants.ModId);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Constants.ModId);
     public static final DeferredRegister<Biome> BIOME = DeferredRegister.create(ForgeRegistries.BIOMES, Constants.ModId);
     public static final DeferredRegister<Fluid> FLUID = DeferredRegister.create(ForgeRegistries.FLUIDS, Constants.ModId);
-    public static final DeferredRegister<StructureType<?>> STRUCTURE = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, Constants.ModId);
+    public static final DeferredRegister<StructureType<?>> STRUCTURE = DeferredRegister.create(Registries.STRUCTURE_TYPE, Constants.ModId);
     public static final DeferredRegister<MenuType<?>> CONTAINER = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Constants.ModId);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Constants.ModId);
     public static final DeferredRegister<Codec<? extends BiomeModifier>> MODIFIER_CODEC = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Constants.ModId);
@@ -64,6 +67,7 @@ public class Registration {
     public static void init() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        TAB.register(bus);
         ITEM.register(bus);
         BLOCKS.register(bus);
         ENTITY.register(bus);
@@ -74,54 +78,59 @@ public class Registration {
         CONTAINER.register(bus);
         RECIPE.register(bus);
     }
+    private static final RegistryObject<CreativeModeTab> LV_MAIN_TAB = TAB.register("", CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.liaveres.classic_tab"))
+            .icon(()-> new ItemStack(LVRegister.MATTER_CRYSTAL_BLOCK.get()))
+            .displayItems((d, o)-> ITEM.getEntries().stream().map(RegistryObject::get).forEach(o::accept))
+            ::build);
 
     public static final RegistryObject<Block> MATTER_CRYSTAL_BLOCK =
-        register("matter_crystal_block", ()-> new Block(BlockBehaviour.Properties.of(Material.METAL)
+        register("matter_crystal_block", ()-> new Block(BlockBehaviour.Properties.of()
                         .strength(Float.MAX_VALUE, Float.MAX_VALUE).requiresCorrectToolForDrops()),
-        block -> new BlockItem(block, new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+        block -> new BlockItem(block, new Item.Properties()));
     public static final RegistryObject<Block> AMDANOR_SPAWNER = register("amdanor_spawner", AmdanorSpawner::new,
-            block -> new BlockItem(block, new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            block -> new BlockItem(block, new Item.Properties()));
     public static final RegistryObject<Block> GILDED_NETHERITE_BLOCK = register("gilded_netherite_block",
-            ()-> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(80f, 240000f)
+            ()-> new Block(BlockBehaviour.Properties.of().strength(80f, 240000f)
                     .requiresCorrectToolForDrops()),
-            block -> new BlockItem(block, new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            block -> new BlockItem(block, new Item.Properties()));
     public static final RegistryObject<Block> CRYSTALLITE = register("crystallite", Crystallite::new,
-            block -> new BlockItem(block, new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            block -> new BlockItem(block, new Item.Properties()));
     public static final RegistryObject<Block> MATTER_BLOCK = register("matter_block",
-            ()-> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(500f, 700000000f)
+            ()-> new Block(BlockBehaviour.Properties.of().strength(500f, 700000000f)
                     .requiresCorrectToolForDrops()),
-            block -> new BlockItem(block, new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            block -> new BlockItem(block, new Item.Properties()));
     public static final RegistryObject<Block> YARN_STATION = register("yarn_station", YarnStation::new,
-        block -> new BlockItem(block, new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+        block -> new BlockItem(block, new Item.Properties()));
 
     public static final RegistryObject<Item> MATTER_CRYSTAL_HELMET = ITEM.register("matter_crystal_helmet",
-            ()-> new MatterCrystalArmor(EquipmentSlot.HEAD));
+            ()-> new MatterCrystalArmor(ArmorItem.Type.HELMET));
     public static final RegistryObject<Item> MATTER_CRYSTAL_CHESTPLATE = ITEM.register("matter_crystal_chestplate",
-            ()-> new MatterCrystalArmor(EquipmentSlot.CHEST));
+            ()-> new MatterCrystalArmor(ArmorItem.Type.CHESTPLATE));
     public static final RegistryObject<Item> MATTER_CRYSTAL_LEGS = ITEM.register("matter_crystal_leggings",
-            ()-> new MatterCrystalArmor(EquipmentSlot.LEGS));
+            ()-> new MatterCrystalArmor(ArmorItem.Type.LEGGINGS));
     public static final RegistryObject<Item> MATTER_CRYSTAL_BOOTS = ITEM.register("matter_crystal_boots",
-            ()-> new MatterCrystalArmor(EquipmentSlot.FEET));
+            ()-> new MatterCrystalArmor(ArmorItem.Type.BOOTS));
     public static final RegistryObject<Item> MATTER_CRYSTAL = ITEM.register("matter_crystal",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> MATTER = ITEM.register("matter",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> MATTER_SHARD = ITEM.register("matter_shard",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> AMDANOR_SKELETON_EGG = ITEM.register("amdanor_skeleton_egg",
-            ()-> new ForgeSpawnEggItem(Registration.AMDANOR, 0x000000, 0xffffff,
-                    new Item.Properties().tab(ModSetup.MOBS_TAB)));
+            ()-> new ForgeSpawnEggItem(LVRegister.AMDANOR, 0x000000, 0xffffff,
+                    new Item.Properties()));
     public static final RegistryObject<Item> MATTER_CRYSTAL_SWORD = ITEM.register("matter_crystal_sword", MatterCrystalSword::new);
     public static final RegistryObject<Item> MATTER_HELMET = ITEM.register("matter_helmet",
-            ()-> new MatterArmor(EquipmentSlot.HEAD));
+            ()-> new MatterArmor(ArmorItem.Type.HELMET));
     public static final RegistryObject<Item> MATTER_CHESTPLATE = ITEM.register("matter_chestplate",
-            ()-> new MatterArmor(EquipmentSlot.CHEST));
+            ()-> new MatterArmor(ArmorItem.Type.CHESTPLATE));
     public static final RegistryObject<Item> MATTER_LEGS = ITEM.register("matter_leggings",
-            ()-> new MatterArmor(EquipmentSlot.LEGS));
+            ()-> new MatterArmor(ArmorItem.Type.LEGGINGS));
     public static final RegistryObject<Item> MATTER_BOOTS = ITEM.register("matter_boots",
-            ()-> new MatterArmor(EquipmentSlot.FEET));
+            ()-> new MatterArmor(ArmorItem.Type.BOOTS));
     public static final RegistryObject<Item> CRYSTALLINE = ITEM.register("crystalline",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> MATTER_CRYSTAL_AXE = ITEM.register("matter_crystal_axe", MatterCrystalAxe::new);
     public static final RegistryObject<Item> MATTER_CRYSTAL_PICKAXE = ITEM.register("matter_crystal_pickaxe", MatterCrystalPickaxe::new);
     public static final RegistryObject<Item> MATTER_CRYSTAL_SHOVEL = ITEM.register("matter_crystal_shovel", MatterCrystalShovel::new);
@@ -130,47 +139,46 @@ public class Registration {
     public static final RegistryObject<Item> ENCHANTED_APPLE = ITEM.register("enchanted_apple", EnchantedApple::new);
     public static final RegistryObject<Item> LIGHTNING_ARTIFACT =  ITEM.register("lightning_artifact", LightningArtifact::new);
     public static final RegistryObject<Item> EMPTY_ARTIFACT =  ITEM.register("empty_artifact",
-            ()-> new Item(new Item.Properties().tab(ModSetup.ARTIFACT_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> AMDANOR_UNLOCKER_KEY = ITEM.register("amdanor_key", AmdanorKey::new);
     public static final RegistryObject<Item> WITHERING_BONE = ITEM.register("withering_bone",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB).fireResistant()));
+            ()-> new Item(new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> LIA_BOOK = ITEM.register("lia_book", LiaBook::new);
     public static final RegistryObject<Item> GILDED_NETHERITE_INGOT = ITEM.register("gilded_netherite_ingot",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> GILDED_NETHERITE_HELMET = ITEM.register("gilded_netherite_helmet",
-            ()-> new GildedNetheriteArmor(EquipmentSlot.HEAD));
+            ()-> new GildedNetheriteArmor(ArmorItem.Type.HELMET));
     public static final RegistryObject<Item> GILDED_NETHERITE_CHESTPLATE = ITEM.register("gilded_netherite_chestplate",
-            ()-> new GildedNetheriteArmor(EquipmentSlot.CHEST));
+            ()-> new GildedNetheriteArmor(ArmorItem.Type.CHESTPLATE));
     public static final RegistryObject<Item> GILDED_NETHERITE_LEGS = ITEM.register("gilded_netherite_leggings",
-            ()-> new GildedNetheriteArmor(EquipmentSlot.LEGS));
+            ()-> new GildedNetheriteArmor(ArmorItem.Type.LEGGINGS));
     public static final RegistryObject<Item> GILDED_NETHERITE_BOOTS = ITEM.register("gilded_netherite_boots",
-            ()-> new GildedNetheriteArmor(EquipmentSlot.FEET));
+            ()-> new GildedNetheriteArmor(ArmorItem.Type.BOOTS));
     public static final RegistryObject<Item> GILDED_NETHERITE_SWORD = ITEM.register("gilded_netherite_sword",
-            ()-> new SwordItem(LVToolMaterial.GILDED_NETHERITE, 12, 10F,
-                    new Item.Properties().tab(ModSetup.CLASSIC_TAB).rarity(Constants.getLegendary)));
+            ()-> new SwordItem(LVToolTiers.GILDED_NETHERITE, 12, 10F,
+                    new Item.Properties().rarity(Constants.getLegendary())));
     public static final RegistryObject<Item> GILDED_NETHERITE_PICKAXE = ITEM.register("gilded_netherite_pickaxe",
-            ()-> new PickaxeItem(LVToolMaterial.GILDED_NETHERITE, 4, 12F,
-                    new Item.Properties().tab(ModSetup.CLASSIC_TAB).rarity(Constants.getLegendary)));
+            ()-> new PickaxeItem(LVToolTiers.GILDED_NETHERITE, 4, 12F,
+                    new Item.Properties().rarity(Constants.getLegendary())));
     public static final RegistryObject<Item> GILDED_NETHERITE_AXE = ITEM.register("gilded_netherite_axe",
-            ()-> new AxeItem(LVToolMaterial.GILDED_NETHERITE, 20F, 11.2F,
-                    new Item.Properties().tab(ModSetup.CLASSIC_TAB).rarity(Constants.getLegendary)));
+            ()-> new AxeItem(LVToolTiers.GILDED_NETHERITE, 20F, 11.2F,
+                    new Item.Properties().rarity(Constants.getLegendary())));
     public static final RegistryObject<Item> GILDED_NETHERITE_SHOVEL = ITEM.register("gilded_netherite_shovel",
-            ()-> new ShovelItem(LVToolMaterial.GILDED_NETHERITE, 6F, 12F,
-                    new Item.Properties().tab(ModSetup.CLASSIC_TAB).rarity(Constants.getLegendary)));
+            ()-> new ShovelItem(LVToolTiers.GILDED_NETHERITE, 6F, 12F,
+                    new Item.Properties().rarity(Constants.getLegendary())));
     public static final RegistryObject<Item> GILDED_NETHERITE_HOE = ITEM.register("gilded_netherite_hoe",
-            ()-> new HoeItem(LVToolMaterial.GILDED_NETHERITE, -16, 0F,
-                    new Item.Properties().tab(ModSetup.CLASSIC_TAB).rarity(Constants.getLegendary)));
+            ()-> new HoeItem(LVToolTiers.GILDED_NETHERITE, -16, 0F,
+                    new Item.Properties().rarity(Constants.getLegendary())));
     public static final RegistryObject<Item> LEATHER_STRAP = ITEM.register("leather_strap",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> STITCHED_LEATHER = ITEM.register("stitched_leather",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> STRING_SKEIN = ITEM.register("string_skein",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> EMPTY_SKEIN = ITEM.register("empty_skein",
-            ()-> new Item(new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> BASIC_BACKPACK = ITEM.register("basic_backpack",
-            ()-> new DynamicItem(DynamicContainerData.of(9, 1, SoundEvents.ARMOR_EQUIP_CHAIN),
-                    new Item.Properties().tab(ModSetup.CLASSIC_TAB)));
+            ()-> new ContainedItem(ContainedItemBuilder.builder().rowWidth(9).rowHeight(1).of()));
     public static final RegistryObject<Item> MATTER_CRYSTAL_BREAKER = ITEM.register("matter_crystal_breaker",
             MatterCrystalBreaker::new);
     public static final RegistryObject<Item> THE_EFFECTS_RING = ITEM.register("the_effects_ring", TheEffectsRing::new);
@@ -181,6 +189,9 @@ public class Registration {
                         Level level = inv.player.getCommandSenderWorld();
                         return new YarnStationContainerMenu(windowId, inv, level, pos);
                     }));
+
+    public static final RegistryObject<MenuType<SizedContainer>> SC = CONTAINER.register("sized_container", ()->
+            IForgeMenuType.create((id, inv, byteBuf)-> new SizedContainer(id, inv, inv.player.getUsedItemHand())));
 
     public static final RegistryObject<BlockEntityType<YarnStationBlockEntity>> YARN_STATION_BLOCK_ENTITY =
             BLOCK_ENTITY.register("yarn_station", ()-> BlockEntityType.Builder.of(YarnStationBlockEntity::new, YARN_STATION.get()).build(null));
@@ -193,8 +204,8 @@ public class Registration {
 
     public static final RegistryObject<StructureType<?>> AMDANOR_BASE = register("amdanor_base", AmdanorBaseStructure.CODEC);
 
-    public static final RegistryObject<LiquidRecipeSerializers<YarnRecipe>> YARN_RECIPE = RECIPE.register("yarn",
-            ()-> new LiquidRecipeSerializers<>(YarnRecipe::new));
+    public static final RegistryObject<LVRecipeSerializer<YarnResultContainer, YarnRecipe>> YARN_RECIPE = RECIPE.register("yarn",
+            ()-> new LVRecipeSerializer<>(YarnRecipe::new));
 
     public static final RegistryObject<Codec<OreModifier>> ORE_CODEC = MODIFIER_CODEC.register("ore_gen_codec",
             ()-> RecordCodecBuilder.create(BUILDER -> BUILDER.group(
@@ -206,7 +217,8 @@ public class Registration {
         return STRUCTURE.register(id, ()-> codecConvertor(codec));
     }
 
-    private static <S extends Structure> StructureType<S> codecConvertor(Codec<S> codec) {
+    @Contract(pure = true)
+    private static <S extends Structure> @NotNull StructureType<S> codecConvertor(Codec<S> codec) {
         return ()-> codec;
     }
 

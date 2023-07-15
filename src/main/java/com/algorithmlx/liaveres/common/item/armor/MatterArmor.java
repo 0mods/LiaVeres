@@ -1,9 +1,8 @@
 package com.algorithmlx.liaveres.common.item.armor;
 
-import com.algorithmlx.liaveres.common.item.material.LVArmorMaterial;
+import com.algorithmlx.liaveres.common.item.material.LVArmorMaterials;
 import com.algorithmlx.liaveres.common.setup.Constants;
-import com.algorithmlx.liaveres.common.setup.ModSetup;
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -15,8 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class MatterArmor extends ArmorItem {
-    public MatterArmor(EquipmentSlot pSlot) {
-        super(LVArmorMaterial.MATTER, pSlot, new Item.Properties().fireResistant().tab(ModSetup.CLASSIC_TAB));
+    public MatterArmor(ArmorItem.Type pSlot) {
+        super(LVArmorMaterials.MATTER, pSlot, new Item.Properties().fireResistant());
     }
 
     @Override
@@ -31,10 +30,10 @@ public class MatterArmor extends ArmorItem {
         if(!player.getPersistentData().contains("wearingFullMatterArmor"))player
                 .getPersistentData().putBoolean("wearingFullMatterArmor", false);
         boolean iswearingFullMatterArmor =
-                head.getItem() == Registration.MATTER_HELMET.get() &&
-                        chest.getItem() == Registration.MATTER_CHESTPLATE.get() &&
-                        legs.getItem() == Registration.MATTER_LEGS.get() &&
-                        feet.getItem() == Registration.MATTER_BOOTS.get();
+                head.getItem() == LVRegister.MATTER_HELMET.get() &&
+                        chest.getItem() == LVRegister.MATTER_CHESTPLATE.get() &&
+                        legs.getItem() == LVRegister.MATTER_LEGS.get() &&
+                        feet.getItem() == LVRegister.MATTER_BOOTS.get();
 
         boolean wasWearingMatterCrystalArmorLastTick = player.getPersistentData().getBoolean("wearingFullMatterArmor");
 

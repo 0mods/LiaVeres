@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class AmdanorKey extends Item {
     public AmdanorKey() {
-        super(new Properties().fireResistant().tab(ModSetup.CLASSIC_TAB).rarity(Constants.getLegendary).stacksTo(1));
+        super(new Properties().fireResistant().rarity(Constants.getLegendary()).stacksTo(1));
     }
 
     @Override

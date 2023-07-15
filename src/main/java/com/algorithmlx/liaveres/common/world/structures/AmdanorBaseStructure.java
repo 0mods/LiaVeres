@@ -1,6 +1,6 @@
 package com.algorithmlx.liaveres.common.world.structures;
 
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -87,6 +87,6 @@ public class AmdanorBaseStructure extends Structure {
 
     @Override
     public StructureType<?> type() {
-        return Registration.AMDANOR_BASE.get();
+        return LVRegister.AMDANOR_BASE.get();
     }
 }

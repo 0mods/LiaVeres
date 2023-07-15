@@ -16,7 +16,7 @@ import java.util.List;
 
 public class EnchantedApple extends Item {
     public EnchantedApple() {
-        super(new Properties().rarity(Rarity.EPIC).tab(ModSetup.CLASSIC_TAB).food(new FoodProperties.Builder()
+        super(new Properties().rarity(Rarity.EPIC).food(new FoodProperties.Builder()
                 .saturationMod(10)
                 .nutrition(10)
                 .build())

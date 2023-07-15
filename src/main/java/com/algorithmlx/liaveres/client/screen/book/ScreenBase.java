@@ -4,6 +4,7 @@ import com.algorithmlx.liaveres.common.setup.Constants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,23 +22,25 @@ public abstract class ScreenBase extends Screen {
 
     public abstract void texts();
 
+    private GuiGraphics guiGraphics;
+
     @Override
-    public void render(@NotNull PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+    public void render(@NotNull GuiGraphics g, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(g, pMouseX, pMouseY, pPartialTick);
+        guiGraphics = g;
 
         int j = ((this.width / 2) - (imgWidth / 2));
         int k = ((this.height / 2) - (imgHeight / 2));
 
-        this.renderBackground(pPoseStack);
+        this.renderBackground(g);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        blit(pPoseStack, j, k, 0, 0, imgWidth, imgHeight, imgWidth, imgHeight);
+        g.blit(TEXTURE, j, k, 0, 0, imgWidth, imgHeight, imgWidth, imgHeight);
         this.texts();
-        super.render(pPoseStack, 0, 0, pPartialTick);
+        super.render(g, 0, 0, pPartialTick);
     }
 
     public void text(String translatableText, int color, int x, int y) {
-        PoseStack poseStack = new PoseStack();
-        Minecraft.getInstance().font.draw(poseStack, Component.translatable("text." + Constants.ModId + "liaBook." + translatableText), x, y, color);
+        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("text." + Constants.ModId + "liaBook." + translatableText), x, y, color);
     }
 
     public Component translatableTextButton(String buttonName) {

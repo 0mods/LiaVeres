@@ -1,42 +1,29 @@
 package com.algorithmlx.liaveres.common.setup;
 
+import com.algorithmlx.liaveres.api.network.Direction;
+import com.algorithmlx.liaveres.common.event.LVEvents;
 import com.algorithmlx.liaveres.proxy.ClientProxy;
 import com.algorithmlx.liaveres.proxy.ServerProxy;
 import com.algorithmlx.liaveres.server.network.Network;
-import liquid.network.Direction;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod.EventBusSubscriber(modid = Constants.ModId, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModSetup {
     public static Direction proxy = Direction.of(ClientProxy::new, ServerProxy::new);
-    public static Direction _proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
-    public static final CreativeModeTab CLASSIC_TAB = new CreativeModeTab(Constants.ModId + ".classic_tab") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(Registration.MATTER_CRYSTAL_BLOCK.get());
-        }
-    };
+    public static void init() {
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
-    public static final CreativeModeTab ARTIFACT_TAB = new CreativeModeTab(Constants.ModId + ".classic_tab") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(Registration.EMPTY_ARTIFACT.get());
-        }
-    };
+        forgeBus.addListener(ModSetup::commonSetup);
+        modBus.addListener(LVEvents::registryEntityAttributes);
+    }
 
-    public static final CreativeModeTab MOBS_TAB = new CreativeModeTab(Constants.ModId + ".classic_tab") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(Registration.AMDANOR_SKELETON_EGG.get());
-        }
-    };
-
-    public static void init(final FMLCommonSetupEvent event) {
+    public static void commonSetup(final FMLCommonSetupEvent event) {
         Network.messageRegister();
 //        OreConfigured.register();
 //        OrePlacement.register();

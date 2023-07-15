@@ -4,6 +4,7 @@ import com.algorithmlx.liaveres.client.screen.book.page.LiaBookInfoPage;
 import com.algorithmlx.liaveres.client.screen.button.ButtonBase;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -18,8 +19,7 @@ public class LiaBookScreen extends ScreenBase {
 
     @Override
     protected void init() {
-        this.addRenderableWidget(new ButtonBase(37, 23, 16, 16,
-                        pButton -> this.minecraft.setScreen(new LiaBookInfoPage()),
+        this.addRenderableWidget(new ButtonBase(Button.builder(Component.empty(), press-> this.minecraft.setScreen(new LiaBookInfoPage())),
                         new ResourceLocation("")
                 )
         );

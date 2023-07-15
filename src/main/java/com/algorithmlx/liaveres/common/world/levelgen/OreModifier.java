@@ -1,8 +1,7 @@
 package com.algorithmlx.liaveres.common.world.levelgen;
 
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
@@ -21,6 +20,6 @@ public record OreModifier(HolderSet<Biome> biomes, Holder<PlacedFeature> feature
 
     @Override
     public Codec<? extends BiomeModifier> codec() {
-        return Registration.ORE_CODEC.get();
+        return LVRegister.ORE_CODEC.get();
     }
 }

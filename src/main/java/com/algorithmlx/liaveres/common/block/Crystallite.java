@@ -5,12 +5,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.NotNull;
 
 public class Crystallite extends Block {
     public Crystallite() {
-        super(Properties.of(Material.METAL)
+        super(Properties.of()
                 .requiresCorrectToolForDrops()
                 .noOcclusion()
                 .lightLevel((blockState) -> 10)

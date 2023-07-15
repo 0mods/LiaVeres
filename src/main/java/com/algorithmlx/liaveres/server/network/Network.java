@@ -8,21 +8,22 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public class Network {
-    private static SimpleChannel simpleChannel;
+    private static SimpleChannel SIMPLE_CHANNEL;
     private static int ID = 0;
+    private static final String VERSION = "1.0";
 
     private static int nextID() {
         return ID++;
     }
 
     public static void messageRegister() {
-        simpleChannel = NetworkRegistry.newSimpleChannel(new ResourceLocation(Constants.ModId, "liaveres"),
-                ()-> "1.0",
-                s -> true,
-                s -> true
+        SIMPLE_CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(Constants.ModId, "main"),
+                ()-> VERSION,
+                VERSION::equals,
+                VERSION::equals
         );
 
-        simpleChannel.messageBuilder(OpenScreenPacket.class, nextID())
+        SIMPLE_CHANNEL.messageBuilder(OpenScreenPacket.class, nextID())
                 .encoder(((openScreenPacket, friendlyByteBuf) -> {}))
                 .decoder(friendlyByteBuf -> new OpenScreenPacket())
                 .consumerMainThread(OpenScreenPacket::liaBookHandler)
@@ -30,10 +31,10 @@ public class Network {
     }
 
     public static void clientSender(Object obj, ServerPlayer serverPlayer) {
-        simpleChannel.sendTo(obj, serverPlayer.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+        SIMPLE_CHANNEL.sendTo(obj, serverPlayer.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
     }
 
     public static void serverSender(Object obj) {
-        simpleChannel.sendToServer(obj);
+        SIMPLE_CHANNEL.sendToServer(obj);
     }
 }

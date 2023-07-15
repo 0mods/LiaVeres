@@ -1,8 +1,6 @@
 package com.algorithmlx.liaveres.common.menu.slots;
 
-import com.algorithmlx.liaveres.common.setup.Registration;
-import net.minecraft.world.Container;
-import net.minecraft.world.inventory.Slot;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -14,6 +12,6 @@ public class YarnInputSkeinSlot extends SlotItemHandler {
 
     @Override
     public boolean mayPlace(ItemStack pStack) {
-        return pStack.getItem() == Registration.STRING_SKEIN.get();
+        return pStack.getItem() == LVRegister.STRING_SKEIN.get();
     }
 }

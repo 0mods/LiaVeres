@@ -1,12 +1,12 @@
 package com.algorithmlx.liaveres.common.menu;
 
+import com.algorithmlx.liaveres.api.util.container.AdvancedContainerMenu;
 import com.algorithmlx.liaveres.common.menu.container.YarnCraftContainer;
 import com.algorithmlx.liaveres.common.menu.container.YarnResultContainer;
 import com.algorithmlx.liaveres.common.menu.slots.YarnInputSlot;
 import com.algorithmlx.liaveres.common.menu.slots.YarnOutputResultSlot;
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import com.algorithmlx.liaveres.common.menu.slots.YarnInputSkeinSlot;
-import liquid.objects.container.AdvancedContainerMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +15,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 @SuppressWarnings("all")
 public class YarnStationContainerMenu extends AdvancedContainerMenu {
@@ -24,7 +24,7 @@ public class YarnStationContainerMenu extends AdvancedContainerMenu {
     private final Inventory inv;
 
     public YarnStationContainerMenu(int windowId, Inventory inv, Level level, BlockPos pos) {
-        super(Registration.YARN_STATION_CONTAINER.get(), windowId, inv);
+        super(LVRegister.YARN_STATION_CONTAINER.get(), windowId, inv);
 
         this.inv = inv;
 
@@ -34,7 +34,7 @@ public class YarnStationContainerMenu extends AdvancedContainerMenu {
         this.resultSlot = new YarnResultContainer();
 
         if (blockEntity != null) {
-            this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
+            this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
                 this.addSlot(new YarnInputSlot(h, 0, 25, 17));
                 this.addSlot(new YarnInputSkeinSlot(h, 1, 25, 53));
             });
@@ -45,7 +45,7 @@ public class YarnStationContainerMenu extends AdvancedContainerMenu {
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos()),
-                pPlayer, Registration.YARN_STATION.get());
+                pPlayer, LVRegister.YARN_STATION.get());
     }
 
     @Override

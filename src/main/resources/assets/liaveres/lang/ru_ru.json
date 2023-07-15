@@ -1,6 +1,4 @@
 {
-  "_comment": "Translation help There: https://github.com/AlgorithmLX-Team/TranslateHelp/",
-
   "item.liaveres.matter_crystal": "§3Кристалл материи",
   "item.liaveres.matter": "Материя",
   "item.liaveres.crystalline": "§dКристаллин",
@@ -40,18 +38,16 @@
 
   "block.liaveres.matter_crystal_block": "Блок кристалла материи",
   "block.liaveres.crystallite": "Кристаллит",
-  "block.liaveres.matter_block": "Блок материи ",
+  "block.liaveres.matter_block": "Блок материи",
   "block.liaveres.amdanor_spawner": "Призыватель Амданора",
   "block.liaveres.gilded_netherite_block": "Золочёный незеритовый блок",
 
   "entity.liaveres.amdanor": "Амданор",
 
-  "itemGroup.liaveres.classic_tab": "LiaVeres: Обычная группа",
-  "itemGroup.liaveres.artifact_tab": "LiaVeres: Группа артефактов",
-  "itemGroup.liaveres.mobs_tab": "LiaVeres: Группа сущностей",
+  "itemGroup.liaveres.classic_tab": "LiaVeres",
 
   "msg.liaveres.effect_catalyst": "При совмещении с Незеритовой бронёй, преобразует Незеритовую броню в броню Лиа.",
-  "msg.liaveres.matter_crystal_armor": "§4Полный, §bодетый набор брони Lia дает полёт и эффекты, а также отклоняет урон, который вы получили",
+  "msg.liaveres.matter_crystal_armor": "§4Полный, §bодетый набор брони из кристалла матрии дает полёт и эффекты, а также отклоняет урон, который вы получили",
   "msg.liaveres.matter_crystal_msg": "БЕССКОНЕЧНЫЙ",
   "msg.liaveres.matter_crystal_pickaxe": "Нажмите §fПКМ §2чтобы сломать арену 32 на 32",
   "msg.liaveres.enchanted_apple": "Основа для крафта",

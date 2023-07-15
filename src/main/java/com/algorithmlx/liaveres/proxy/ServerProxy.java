@@ -1,8 +1,8 @@
 package com.algorithmlx.liaveres.proxy;
 
+import com.algorithmlx.liaveres.api.network.Direction;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.server.registry.CommandRegister;
-import liquid.network.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,7 +22,7 @@ public class ServerProxy implements Direction {
 
     }
 
-    public boolean clientSide() {
+    public boolean client() {
         return false;
     }
 

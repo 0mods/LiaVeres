@@ -1,6 +1,6 @@
 package com.algorithmlx.liaveres.common.item.tool;
 
-import com.algorithmlx.liaveres.common.item.material.LVToolMaterial;
+import com.algorithmlx.liaveres.common.item.material.LVToolTiers;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.common.setup.ModSetup;
 import net.minecraft.ChatFormatting;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class MatterCrystalAxe extends AxeItem {
     public MatterCrystalAxe() {
-        super(LVToolMaterial.MATTER_CRYSTAL, Integer.MAX_VALUE, Float.MAX_VALUE, new Properties().fireResistant().tab(ModSetup.CLASSIC_TAB).rarity(Constants.getLegendary));
+        super(LVToolTiers.MATTER_CRYSTAL, Integer.MAX_VALUE, Float.MAX_VALUE, new Properties().fireResistant().rarity(Constants.getLegendary()));
     }
     @OnlyIn(Dist.CLIENT)
     @Override

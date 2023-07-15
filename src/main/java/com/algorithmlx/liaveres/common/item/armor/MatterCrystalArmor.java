@@ -1,10 +1,10 @@
 package com.algorithmlx.liaveres.common.item.armor;
 
 import com.algorithmlx.liaveres.common.entity.Amdanor;
-import com.algorithmlx.liaveres.common.item.material.LVArmorMaterial;
+import com.algorithmlx.liaveres.common.item.material.LVArmorMaterials;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.common.setup.ModSetup;
-import com.algorithmlx.liaveres.common.setup.Registration;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -14,7 +14,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
@@ -35,8 +34,8 @@ import java.util.Random;
 @SuppressWarnings({"DuplicatedCode", "NullableProblems", "EqualsBetweenInconvertibleTypes", "ConstantConditions"})
 public class MatterCrystalArmor extends ArmorItem {
 
-    public MatterCrystalArmor(EquipmentSlot pSlot) {
-        super(LVArmorMaterial.MATTER_CRYSTAL, pSlot, new Properties().tab(ModSetup.CLASSIC_TAB).rarity(Constants.getLegendary));
+    public MatterCrystalArmor(ArmorItem.Type pSlot) {
+        super(LVArmorMaterials.MATTER_CRYSTAL, pSlot, new Properties().rarity(Constants.getLegendary()));
         MinecraftForge.EVENT_BUS.addListener(this::updatePlayerData);
         MinecraftForge.EVENT_BUS.addListener(this::cancelDamage);
     }
@@ -50,14 +49,14 @@ public class MatterCrystalArmor extends ArmorItem {
         ItemStack feet = livingEntity.getItemBySlot(EquipmentSlot.FEET);
 
         boolean isFullMCA =
-                head.getItem() == Registration.MATTER_CRYSTAL_HELMET.get() &&
-                        chest.getItem() == Registration.MATTER_CRYSTAL_CHESTPLATE.get() &&
-                        legs.getItem() == Registration.MATTER_CRYSTAL_LEGS.get() &&
-                        feet.getItem() == Registration.MATTER_CRYSTAL_BOOTS.get();
+                head.getItem() == LVRegister.MATTER_CRYSTAL_HELMET.get() &&
+                        chest.getItem() == LVRegister.MATTER_CRYSTAL_CHESTPLATE.get() &&
+                        legs.getItem() == LVRegister.MATTER_CRYSTAL_LEGS.get() &&
+                        feet.getItem() == LVRegister.MATTER_CRYSTAL_BOOTS.get();
 
 
-        if (livingEntity.getLevel().isClientSide() && event.equals(Minecraft.getInstance().player)) {
-            if (isFullMCA && livingEntity.isOnGround() && livingEntity.zza > 0F) {
+        if (livingEntity.level().isClientSide() && event.equals(Minecraft.getInstance().player)) {
+            if (isFullMCA && livingEntity.onGround() && livingEntity.zza > 0F) {
                 livingEntity.moveRelative(1.4F, new Vec3( 0, 0, 1));
             }
         }
@@ -73,12 +72,12 @@ public class MatterCrystalArmor extends ArmorItem {
         ItemStack feet = entity.getItemBySlot(EquipmentSlot.FEET);
 
         boolean isFullMatterCrystalArmor =
-                head.getItem() == Registration.MATTER_CRYSTAL_HELMET.get() &&
-                        chest.getItem() == Registration.MATTER_CRYSTAL_CHESTPLATE.get() &&
-                        legs.getItem() == Registration.MATTER_CRYSTAL_LEGS.get() &&
-                        feet.getItem() == Registration.MATTER_CRYSTAL_BOOTS.get();
+                head.getItem() == LVRegister.MATTER_CRYSTAL_HELMET.get() &&
+                        chest.getItem() == LVRegister.MATTER_CRYSTAL_CHESTPLATE.get() &&
+                        legs.getItem() == LVRegister.MATTER_CRYSTAL_LEGS.get() &&
+                        feet.getItem() == LVRegister.MATTER_CRYSTAL_BOOTS.get();
 
-        if (event.isCanceled() || event.getAmount() <= 0 || event.getEntity().getLevel().isClientSide()) return;
+        if (event.isCanceled() || event.getAmount() <= 0 || event.getEntity().level().isClientSide()) return;
 
         if (!isFullMatterCrystalArmor) return;
 
@@ -120,15 +119,15 @@ public class MatterCrystalArmor extends ArmorItem {
         ItemStack feetSlot = player.getItemBySlot(EquipmentSlot.FEET);
 
         boolean isFullMCA =
-                headSlot.getItem() == Registration.MATTER_CRYSTAL_HELMET.get() &&
-                        chestSlot.getItem() == Registration.MATTER_CRYSTAL_CHESTPLATE.get() &&
-                        legsSlot.getItem() == Registration.MATTER_CRYSTAL_LEGS.get() &&
-                        feetSlot.getItem() == Registration.MATTER_CRYSTAL_BOOTS.get();
+                headSlot.getItem() == LVRegister.MATTER_CRYSTAL_HELMET.get() &&
+                        chestSlot.getItem() == LVRegister.MATTER_CRYSTAL_CHESTPLATE.get() &&
+                        legsSlot.getItem() == LVRegister.MATTER_CRYSTAL_LEGS.get() &&
+                        feetSlot.getItem() == LVRegister.MATTER_CRYSTAL_BOOTS.get();
         boolean isNullMCA =
-                (headSlot.getItem() != Registration.MATTER_CRYSTAL_HELMET.get() && headSlot.getItem() == null) &&
-                (chestSlot.getItem() != Registration.MATTER_CRYSTAL_CHESTPLATE.get() && chestSlot.getItem() == null) &&
-                (legsSlot.getItem() != Registration.MATTER_CRYSTAL_LEGS.get() && legsSlot.getItem() == null) &&
-                (feetSlot.getItem() != Registration.MATTER_CRYSTAL_BOOTS.get() && feetSlot.getItem() == null);
+                (headSlot.getItem() != LVRegister.MATTER_CRYSTAL_HELMET.get() && headSlot.getItem() == null) &&
+                (chestSlot.getItem() != LVRegister.MATTER_CRYSTAL_CHESTPLATE.get() && chestSlot.getItem() == null) &&
+                (legsSlot.getItem() != LVRegister.MATTER_CRYSTAL_LEGS.get() && legsSlot.getItem() == null) &&
+                (feetSlot.getItem() != LVRegister.MATTER_CRYSTAL_BOOTS.get() && feetSlot.getItem() == null);
 
         if (!isFullMCA && !player.isCreative()) {
             player.getAbilities().mayfly = false;
