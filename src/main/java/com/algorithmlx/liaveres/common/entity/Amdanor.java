@@ -2,6 +2,7 @@ package com.algorithmlx.liaveres.common.entity;
 
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.common.setup.LVRegister;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;
@@ -33,6 +34,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 
 import javax.annotation.Nullable;
 
@@ -40,10 +43,10 @@ import javax.annotation.Nullable;
 public class Amdanor extends AbstractSkeleton {
     private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.BLUE, BossEvent.BossBarOverlay.PROGRESS);
 
-    private ServerPlayer player;
-
     private float bossHP;
     private float bossDamage;
+
+    private ServerPlayer player;
 
     public Amdanor(EntityType<? extends AbstractSkeleton> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -128,8 +131,6 @@ public class Amdanor extends AbstractSkeleton {
     }
 
     public static AttributeSupplier.Builder prepareAttributes() {
-
-
         return AttributeSupplier.builder()
                 .add(Attributes.ATTACK_DAMAGE, 20000000000f)
                 .add(Attributes.MAX_HEALTH, Double.MAX_VALUE)
@@ -144,6 +145,7 @@ public class Amdanor extends AbstractSkeleton {
         if (itemEntity != null) {
             itemEntity.setExtendedLifetime();
         }
+        super.dropCustomDeathLoot(pDamageSource, pLooting, pRecentlyHit);
     }
 
     @Override
@@ -153,16 +155,11 @@ public class Amdanor extends AbstractSkeleton {
 
     @Override
     public void tick() {
+        super.tick();
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
         this.bossHP = this.getMaxHealth();
-        if (player.getAbilities().mayfly) {
-            player.getAbilities().mayfly = false;
-            player.sendSystemMessage(Component.translatable("msg." + Constants.ModId + ".amdanor.blocking"));
-        }
 
-
-
-        if (player.gameMode.isCreative() || player.gameMode.isSurvival()) player.setGameMode(GameType.ADVENTURE);
+        MinecraftForge.EVENT_BUS.addListener(this::playerTicking);
     }
 
     public BossEvent.BossBarColor getBarColor() {
@@ -171,8 +168,6 @@ public class Amdanor extends AbstractSkeleton {
 
     @Override
     public void startSeenByPlayer(ServerPlayer player) {
-        this.player = player;
-
         this.bossInfo.setColor(getBarColor());
         this.bossInfo.addPlayer(player);
     }
@@ -183,5 +178,27 @@ public class Amdanor extends AbstractSkeleton {
             player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
         }
         this.bossInfo.removePlayer(player);
+    }
+
+    private void playerTicking(TickEvent.PlayerTickEvent event) {
+        var player = event.player;
+
+        if (this.isAlive()) {
+            if (player.getAbilities().mayfly) {
+                player.getAbilities().mayfly = false;
+                if (player.level().isClientSide())
+                    player.sendSystemMessage(Component.translatable("msg." + Constants.ModId + ".amdanor.blocking"));
+            }
+
+            if (player instanceof ServerPlayer serverPlayer) {
+                if (serverPlayer.gameMode.isCreative() || serverPlayer.gameMode.isSurvival())
+                    serverPlayer.setGameMode(GameType.ADVENTURE);
+            }
+        } else {
+            if (player instanceof ServerPlayer serverPlayer)
+                if (serverPlayer.gameMode.getGameModeForPlayer() == GameType.ADVENTURE) {
+                    serverPlayer.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+                }
+        }
     }
 }

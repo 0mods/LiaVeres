@@ -28,5 +28,4 @@ public class YarnStationScreen extends AbstractContainerScreen<YarnStationContai
     protected void renderBg(GuiGraphics p_283065_, float p_97788_, int p_97789_, int p_97790_) {
 
     }
-
 }

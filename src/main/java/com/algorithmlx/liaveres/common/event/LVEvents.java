@@ -16,6 +16,7 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LVEvents {
     // FIXME: 2/4/2022
@@ -43,26 +44,8 @@ public class LVEvents {
 //            }
 //        }
 
-        if (e instanceof ItemEntity entity) {
-            if (et == EntityType.LIGHTNING_BOLT) {
-                BlockPos pos = event.getEntity().blockPosition();
-            Level level = entity.level();
-
-            Item item = entity.getItem().getItem();
-
-            if (item == LVRegister.EMPTY_ARTIFACT.get()) {
-                    int x = entity.getBlockX();
-                    int y = entity.getBlockY();
-                    int z = entity.getBlockZ();
-
-                    List<ItemEntity> itemEntityList =
-                        level.getEntitiesOfClass(ItemEntity.class, new AABB(pos.mutable().move(x, y, z)));
-                    for (ItemEntity entity0 : itemEntityList) {
-                        if (entity0.getItem().getItem() == LVRegister.EMPTY_ARTIFACT.get())
-                           entity0.spawnAtLocation(LVRegister.LIGHTNING_ARTIFACT.get(), 1);
-                    }
-                }
-            }
+        if (Objects.requireNonNull(event.getSource().getEntity()).getType() == EntityType.LIGHTNING_BOLT) {
+            // here code maybe
         }
     }
 

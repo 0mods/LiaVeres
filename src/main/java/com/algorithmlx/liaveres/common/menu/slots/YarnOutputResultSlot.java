@@ -4,6 +4,7 @@ import com.algorithmlx.liaveres.common.menu.container.YarnResultContainer;
 import com.algorithmlx.liaveres.common.recipe.RecipeTypes;
 import com.algorithmlx.liaveres.common.recipe.YarnRecipe;
 import com.algorithmlx.liaveres.common.menu.container.YarnCraftContainer;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
@@ -15,11 +16,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class YarnOutputResultSlot extends Slot {
     private final YarnCraftContainer craftSlots;
     private final Player player;
@@ -46,7 +51,7 @@ public class YarnOutputResultSlot extends Slot {
     }
 
     @Override
-    protected void onQuickCraft(ItemStack pStack, int pAmount) {
+    protected void onQuickCraft(@NotNull ItemStack pStack, int pAmount) {
         this.removeCount += pAmount;
         this.checkTakeAchievements(pStack);
     }
@@ -57,7 +62,7 @@ public class YarnOutputResultSlot extends Slot {
     }
 
     @Override
-    protected void checkTakeAchievements(ItemStack pStack) {
+    protected void checkTakeAchievements(@NotNull ItemStack pStack) {
         List<ItemStack> stacks = new ArrayList<>();
         stacks.add(pStack);
 
@@ -74,7 +79,7 @@ public class YarnOutputResultSlot extends Slot {
     }
 
     @Override
-    public void onTake(Player pPlayer, ItemStack pStack) {
+    public void onTake(@NotNull Player pPlayer, @NotNull ItemStack pStack) {
         this.checkTakeAchievements(pStack);
         ForgeHooks.setCraftingPlayer(pPlayer);
         YarnResultContainer container1 = new YarnResultContainer();

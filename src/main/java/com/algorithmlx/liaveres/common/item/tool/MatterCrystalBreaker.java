@@ -25,6 +25,8 @@ public class MatterCrystalBreaker extends PickaxeItem {
     public MatterCrystalBreaker() {
         super(LVToolTiers.MATTER_CRYSTAL, Integer.MAX_VALUE, Float.MAX_VALUE,
                 new Properties().fireResistant().rarity(Constants.getLegendary()));
+
+        LVRegister.WITHOUT_TABS_ITEMS.add(this);
     }
 
     @Override
@@ -82,11 +84,11 @@ public class MatterCrystalBreaker extends PickaxeItem {
             }
 
             player.getCooldowns().addCooldown(this, 240);
+            return true;
+        } else {
+            return super.mineBlock(p_40998_, p_40999_, p_41000_, p_41001_, p_41002_);
         }
-        return true;
     }
-
-
 
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {

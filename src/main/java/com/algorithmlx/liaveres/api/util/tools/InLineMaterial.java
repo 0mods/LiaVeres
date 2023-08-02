@@ -26,17 +26,28 @@ public class InLineMaterial {
 
     @Builder(builderClassName = "Builder", builderMethodName = "of")
     static class Armor extends InLineMaterial implements ArmorMaterial {
-        @Default private String name = "";
-        @Default private int maxDamage = 15;
-        @Default private int helmetDef = 2;
-        @Default private int chestDef = 6;
-        @Default private int legsDef = 5;
-        @Default private int bootsDef = 2;
-        @Default private int enchant = 9;
-        @Default private SoundEvent sound = SoundEvents.ARMOR_EQUIP_DIAMOND;
-        @Default private float toughness = 0;
-        @Default private float knockback = 0;
-        @Default private NonNullSupplier<Ingredient> repair = ()-> Ingredient.EMPTY;
+        @Default
+        private String name = "";
+        @Default
+        private int maxDamage = 15;
+        @Default
+        private int helmetDef = 2;
+        @Default
+        private int chestDef = 6;
+        @Default
+        private int legsDef = 5;
+        @Default
+        private int bootsDef = 2;
+        @Default
+        private int enchant = 9;
+        @Default
+        private SoundEvent sound = SoundEvents.ARMOR_EQUIP_DIAMOND;
+        @Default
+        private float toughness = 0;
+        @Default
+        private float knockback = 0;
+        @Default
+        private NonNullSupplier<Ingredient> repair = ()-> Ingredient.EMPTY;
 
         private final int[] armorDurability =  new int[]{13, 15, 16, 11};
 
@@ -116,13 +127,20 @@ public class InLineMaterial {
 
     @Builder(builderClassName = "Builder", builderMethodName = "of")
     static class ItemTier extends InLineMaterial implements Tier {
-        @Default private int maxUses = 250;
-        @Default private float speed = 6F;
-        @Default private float attackBonus = 2.0F;
-        @Default private int harvestLevel = 2;
-        @Default private int enchant = 14;
-        @Default private NonNullSupplier<Ingredient> repair = ()-> Ingredient.EMPTY;
-        @Default private TagKey<Block> tags = null;
+        @Default
+        private int maxUses = 250;
+        @Default
+        private float speed = 6F;
+        @Default
+        private float attackBonus = 2.0F;
+        @Default
+        private int harvestLevel = 2;
+        @Default
+        private int enchant = 14;
+        @Default
+        private NonNullSupplier<Ingredient> repair = ()-> Ingredient.EMPTY;
+        @Default
+        private TagKey<Block> tags = null;
 
         @Override
         public int getUses() {

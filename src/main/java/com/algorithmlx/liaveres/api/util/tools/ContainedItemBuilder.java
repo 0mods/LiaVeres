@@ -7,8 +7,8 @@ import net.minecraft.sounds.SoundEvents;
 
 @Builder(builderClassName = "Building", buildMethodName = "of")
 public class ContainedItemBuilder {
-    @Getter final int rowWidth;
-    @Getter final int rowHeight;
+    @Getter int rowWidth;
+    @Getter int rowHeight;
     @Getter @Builder.Default SoundEvent soundEvent = SoundEvents.ARMOR_EQUIP_CHAIN;
     @Getter @Builder.Default boolean isFireResistance = false;
 }

@@ -44,14 +44,17 @@ import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.*;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuppressWarnings("all")
 public class LVRegister {
+    public static final List<Item> WITHOUT_TABS_ITEMS = new ArrayList<>();
+
     public static final DeferredRegister<CreativeModeTab> TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.ModId);
     public static final DeferredRegister<Item> ITEM = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.ModId);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.ModId);
@@ -78,11 +81,18 @@ public class LVRegister {
         CONTAINER.register(bus);
         RECIPE.register(bus);
     }
-    private static final RegistryObject<CreativeModeTab> LV_MAIN_TAB = TAB.register("", CreativeModeTab.builder()
+    private static final RegistryObject<CreativeModeTab> LV_MAIN_TAB = TAB.register("classic_tab", CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.liaveres.classic_tab"))
             .icon(()-> new ItemStack(LVRegister.MATTER_CRYSTAL_BLOCK.get()))
-            .displayItems((d, o)-> ITEM.getEntries().stream().map(RegistryObject::get).forEach(o::accept))
-            ::build);
+            .displayItems((d, o)-> {
+                ITEM.getEntries().stream().map(RegistryObject::get).forEach(i -> {
+                    for (Item noTabItem : WITHOUT_TABS_ITEMS) {
+                        if (i != noTabItem) o.accept(i);
+                    }
+                });
+            })
+            ::build
+    );
 
     public static final RegistryObject<Block> MATTER_CRYSTAL_BLOCK =
         register("matter_crystal_block", ()-> new Block(BlockBehaviour.Properties.of()
@@ -204,7 +214,7 @@ public class LVRegister {
 
     public static final RegistryObject<StructureType<?>> AMDANOR_BASE = register("amdanor_base", AmdanorBaseStructure.CODEC);
 
-    public static final RegistryObject<LVRecipeSerializer<YarnResultContainer, YarnRecipe>> YARN_RECIPE = RECIPE.register("yarn",
+    public static final RegistryObject<LVRecipeSerializer<YarnRecipe>> YARN_RECIPE = RECIPE.register("yarn",
             ()-> new LVRecipeSerializer<>(YarnRecipe::new));
 
     public static final RegistryObject<Codec<OreModifier>> ORE_CODEC = MODIFIER_CODEC.register("ore_gen_codec",
@@ -217,7 +227,6 @@ public class LVRegister {
         return STRUCTURE.register(id, ()-> codecConvertor(codec));
     }
 
-    @Contract(pure = true)
     private static <S extends Structure> @NotNull StructureType<S> codecConvertor(Codec<S> codec) {
         return ()-> codec;
     }

@@ -9,7 +9,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 public class RecipeTypes {
     public static final RecipeType<YarnRecipe> YARN_RECIPE_TYPE = standardLiaVeresRecipe("yarn");
 
-    private static <A extends Container, T extends LVAbstractRecipe<A>> LVRecipeType<A, T> standardLiaVeresRecipe(String recipeId) {
+    private static <T extends LVAbstractRecipe<? extends Container>> LVRecipeType< T> standardLiaVeresRecipe(String recipeId) {
         return new LVRecipeType<>(recipeId);
     }
 }
