@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeType;
 
-public class LVRecipeType<T extends LVAbstractRecipe<? extends Container>> implements RecipeType<T> {
+public class LVRecipeType<T extends LVAbstractRecipe> implements RecipeType<T> {
     private final ResourceLocation recipeLocation;
 
     public LVRecipeType(String recipeId) {

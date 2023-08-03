@@ -15,6 +15,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @deprecated as not needed. Also see {@link KConfigBuilder}
+ * @since A2
+ */
+@Deprecated(forRemoval = true, since = "A2")
 public class ConfigBuilder {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final Class<?> className;

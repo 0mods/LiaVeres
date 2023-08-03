@@ -16,7 +16,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public abstract class LVAbstractRecipe<T extends Container> implements Recipe<T> {
+public abstract class LVAbstractRecipe implements Recipe<Container> {
     public final RecipeType<?> type;
     public final ResourceLocation id;
     public final Ingredient ingredient;
@@ -35,12 +35,12 @@ public abstract class LVAbstractRecipe<T extends Container> implements Recipe<T>
     }
 
     @Override
-    public boolean matches(T p_44002_, Level p_44003_) {
+    public boolean matches(Container p_44002_, Level p_44003_) {
         return IngredientHelper.test(this.ingredient, p_44002_);
     }
 
     @Override
-    public ItemStack assemble(T p_44001_, RegistryAccess p_267165_) {
+    public ItemStack assemble(Container p_44001_, RegistryAccess p_267165_) {
         return this.result.copy();
     }
 

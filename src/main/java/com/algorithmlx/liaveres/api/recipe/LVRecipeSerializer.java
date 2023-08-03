@@ -21,7 +21,7 @@ import java.util.Objects;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class LVRecipeSerializer<B extends LVAbstractRecipe<? extends Container>> implements RecipeSerializer<B> {
+public class LVRecipeSerializer<B extends LVAbstractRecipe> implements RecipeSerializer<B> {
     @Getter private final SerializerFactory<B> serializerFactory;
 
     public LVRecipeSerializer(SerializerFactory<B> serializerFactory) {
@@ -69,7 +69,7 @@ public class LVRecipeSerializer<B extends LVAbstractRecipe<? extends Container>>
         p_44101_.writeVarInt(p_44102_.time);
     }
 
-    public interface SerializerFactory<T extends LVAbstractRecipe<? extends Container>> {
+    public interface SerializerFactory<T extends LVAbstractRecipe> {
         T create(ResourceLocation id, Ingredient ingredient, ItemStack result, float xp, int time);
     }
 }

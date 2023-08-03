@@ -35,7 +35,8 @@ public abstract class AbstractBlockEntity extends BlockEntity {
         for (int i = 0; i < handler.getSlots(); i++)
             container.setItem(i, handler.getStackInSlot(i));
 
-        Containers.dropContents(this.level, this.worldPosition, container);
+        if (this.getLevel() != null)
+            Containers.dropContents(this.getLevel(), this.worldPosition, container);
     }
 
     @Override
