@@ -11,30 +11,38 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import java.util.Objects;
 
-@Mod.EventBusSubscriber(modid = Constants.ModId, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientProxy implements Direction {
-    @SubscribeEvent
-    public static void doClient(final FMLClientSetupEvent event) {
+    public void doClient(final FMLClientSetupEvent event) {
 //        if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.getGameProfile().getName().equals("AlgorithmLX"))
 //            Minecraft.crash(new CrashReport(Component.translatable("developer.crash.desc").toString(), new Throwable()));
 
         MenuScreens.register(LVRegister.YARN_STATION_CONTAINER.get(), YarnStationScreen::new);
     }
 
-    @SubscribeEvent
-    public static void entityRender(final EntityRenderersEvent.RegisterRenderers event) {
+    public void entityRender(final EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(LVRegister.AMDANOR.get(), AmdanorRender::new);
     }
 
     @Override
     public void init() {
+        if (FMLEnvironment.dist.isClient()) {
+            IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+            IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
+            modBus.addListener(this::doClient);
+            modBus.addListener(this::entityRender);
+        }
     }
 
     @Override

@@ -13,7 +13,6 @@ import com.algorithmlx.liaveres.common.item.artifact.*;
 import com.algorithmlx.liaveres.common.item.basic.*;
 import com.algorithmlx.liaveres.common.item.tool.*;
 import com.algorithmlx.liaveres.common.item.food.*;
-import com.algorithmlx.liaveres.common.menu.container.YarnResultContainer;
 import com.algorithmlx.liaveres.common.recipe.*;
 import com.algorithmlx.liaveres.common.world.levelgen.OreModifier;
 import com.algorithmlx.liaveres.common.world.structures.*;
@@ -24,7 +23,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
@@ -93,7 +91,7 @@ public class LVRegister {
             })
             ::build
     );
-
+    //BLOCk
     public static final RegistryObject<Block> MATTER_CRYSTAL_BLOCK =
         register("matter_crystal_block", ()-> new Block(BlockBehaviour.Properties.of()
                         .strength(Float.MAX_VALUE, Float.MAX_VALUE).requiresCorrectToolForDrops()),
@@ -112,7 +110,7 @@ public class LVRegister {
             block -> new BlockItem(block, new Item.Properties()));
     public static final RegistryObject<Block> YARN_STATION = register("yarn_station", YarnStation::new,
         block -> new BlockItem(block, new Item.Properties()));
-
+    //ITEM
     public static final RegistryObject<Item> MATTER_CRYSTAL_HELMET = ITEM.register("matter_crystal_helmet",
             ()-> new MatterCrystalArmor(ArmorItem.Type.HELMET));
     public static final RegistryObject<Item> MATTER_CRYSTAL_CHESTPLATE = ITEM.register("matter_crystal_chestplate",
@@ -191,7 +189,8 @@ public class LVRegister {
             ()-> new ContainedItem(ContainedItemBuilder.builder().rowWidth(9).rowHeight(1).of()));
     public static final RegistryObject<Item> MATTER_CRYSTAL_BREAKER = ITEM.register("matter_crystal_breaker",
             MatterCrystalBreaker::new);
-    public static final RegistryObject<Item> THE_EFFECTS_RING = ITEM.register("the_effects_ring", TheEffectsRing::new);
+    public static final RegistryObject<Item> DEEP_RING = ITEM.register("deep_ring", DeepRing::new);
+    //MENU TYPES
     public static final RegistryObject<MenuType<YarnStationContainerMenu>> YARN_STATION_CONTAINER =
             CONTAINER.register("yarn_station", ()-> IForgeMenuType.create(
                     (windowId, inv, data)-> {
@@ -199,24 +198,23 @@ public class LVRegister {
                         Level level = inv.player.getCommandSenderWorld();
                         return new YarnStationContainerMenu(windowId, inv, level, pos);
                     }));
-
     public static final RegistryObject<MenuType<SizedContainer>> SC = CONTAINER.register("sized_container", ()->
             IForgeMenuType.create((id, inv, byteBuf)-> new SizedContainer(id, inv, inv.player.getUsedItemHand())));
-
+    // BLOCK ENTITIES
     public static final RegistryObject<BlockEntityType<YarnStationBlockEntity>> YARN_STATION_BLOCK_ENTITY =
             BLOCK_ENTITY.register("yarn_station", ()-> BlockEntityType.Builder.of(YarnStationBlockEntity::new, YARN_STATION.get()).build(null));
-
+    // ENTITIES
     public static final RegistryObject<EntityType<Amdanor>> AMDANOR =
             ENTITY.register("amdanor",
                     ()-> EntityType.Builder.of(Amdanor::new, MobCategory.MISC)
                             .sized(0.55f, 1.5f).fireImmune().immuneTo(Blocks.WITHER_ROSE)
                             .clientTrackingRange(16).build("amdanor"));
-
+    // STRUCTURES
     public static final RegistryObject<StructureType<?>> AMDANOR_BASE = register("amdanor_base", AmdanorBaseStructure.CODEC);
-
+    // RECIPES
     public static final RegistryObject<LVRecipeSerializer<YarnRecipe>> YARN_RECIPE = RECIPE.register("yarn",
             ()-> new LVRecipeSerializer<>(YarnRecipe::new));
-
+    // ORES
     public static final RegistryObject<Codec<OreModifier>> ORE_CODEC = MODIFIER_CODEC.register("ore_gen_codec",
             ()-> RecordCodecBuilder.create(BUILDER -> BUILDER.group(
                     Biome.LIST_CODEC.fieldOf("biomes").forGetter(OreModifier::biomes),
@@ -226,7 +224,6 @@ public class LVRegister {
     private static <S extends Structure> RegistryObject<StructureType<?>> register(String id, Codec<S> codec) {
         return STRUCTURE.register(id, ()-> codecConvertor(codec));
     }
-
     private static <S extends Structure> @NotNull StructureType<S> codecConvertor(Codec<S> codec) {
         return ()-> codec;
     }

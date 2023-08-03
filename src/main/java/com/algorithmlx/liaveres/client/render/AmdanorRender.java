@@ -3,7 +3,9 @@ package com.algorithmlx.liaveres.client.render;
 import com.algorithmlx.liaveres.client.model.AmdanorModel;
 import com.algorithmlx.liaveres.common.entity.Amdanor;
 import com.algorithmlx.liaveres.common.setup.Constants;
+import com.algorithmlx.liaveres.common.setup.LVRegister;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ResourceLocationException;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -26,7 +28,9 @@ public class AmdanorRender extends HumanoidMobRenderer<Amdanor, AmdanorModel<Amd
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(Amdanor entity) {
-        return MOB_TEXTURE;
+        if (entity.getType() == LVRegister.AMDANOR.get()) {
+            return MOB_TEXTURE;
+        } else throw new ResourceLocationException("Texture can't been bound to other entity!");
     }
 
     @Override

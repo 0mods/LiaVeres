@@ -1,5 +1,6 @@
 package com.algorithmlx.liaveres.common.setup;
 
+import com.algorithmlx.liaveres.api.config.ConfigBuilder;
 import com.algorithmlx.liaveres.api.network.Direction;
 import com.algorithmlx.liaveres.common.event.LVEvents;
 import com.algorithmlx.liaveres.proxy.ClientProxy;
@@ -16,8 +17,12 @@ public class ModSetup {
     public static Direction proxy = Direction.of(ClientProxy::new, ServerProxy::new);
 
     public static void init() {
+        ConfigBuilder.build(CommonConfig.class, "common");
+
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+
+        LVRegister.init();
 
         forgeBus.addListener(ModSetup::commonSetup);
         modBus.addListener(LVEvents::registryEntityAttributes);

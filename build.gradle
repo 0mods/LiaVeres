@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id "net.minecraftforge.gradle" version "5.+"
+    id "net.neoforged.gradle" version "6.+"
 }
 
 apply plugin: 'org.spongepowered.mixin'
@@ -15,7 +15,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'net.neoforged.gradle'
 
 String ForgeVersion = "${mc_version}-${forge_version}"
 String lv_version = "${mc_version}-${type_version}${version_mod}"
@@ -25,7 +25,7 @@ group = 'com.algorithmlx'
 version = "${lv_version}"
 
 java {
-    archivesBaseName = 'LiaVeres'
+    archivesBaseName = 'liaveres'
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
@@ -43,6 +43,14 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             arg "-mixin.config=LiaVeres.mixins.json"
+
+            args(
+                    "--uuid ${uuid_mc}",
+                    "--accessToken ${access_token_mc}",
+                    "--clientId ${client_id_mc}",
+                    "--xuid ${xuid_mc}",
+                    "--userType msa"
+            )
 
             mods {
                 liaveres {
@@ -119,7 +127,7 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:$ForgeVersion"
+    minecraft "net.neoforged:forge:$ForgeVersion"
 
     implementation fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
     implementation fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
