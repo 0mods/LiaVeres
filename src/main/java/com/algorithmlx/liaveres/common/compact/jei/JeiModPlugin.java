@@ -1,7 +1,6 @@
-package com.algorithmlx.liaveres.common.integrated.jei;
+package com.algorithmlx.liaveres.common.compact.jei;
 
 import com.algorithmlx.liaveres.common.recipe.RecipeTypes;
-import com.algorithmlx.liaveres.common.recipe.YarnRecipe;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.common.setup.LVRegister;
 import mezz.jei.api.IModPlugin;

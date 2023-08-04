@@ -1,5 +1,6 @@
 package com.algorithmlx.liaveres.common.item.artifact;
 
+import com.algorithmlx.liaveres.common.compact.curios.LVCuriosCapabilities;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -38,8 +39,8 @@ public class DeepRing extends Item {
     @Nullable
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-//        if (ModList.get().isLoaded(Constants.CurioID))
-//            return CuriosLoader.effectRingCapability();
+        if (ModList.get().isLoaded(Constants.CurioID))
+            return LVCuriosCapabilities.getInstance().getDeepRingCurios();
         return super.initCapabilities(stack, nbt);
     }
 }

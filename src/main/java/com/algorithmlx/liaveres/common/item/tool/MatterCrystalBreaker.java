@@ -1,9 +1,9 @@
 package com.algorithmlx.liaveres.common.item.tool;
 
 import com.algorithmlx.liaveres.common.item.material.LVToolTiers;
-import com.algorithmlx.liaveres.common.setup.CommonConfig;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.common.setup.LVRegister;
+import com.algorithmlx.liaveres.common.setup.config.LVCommon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -32,7 +32,7 @@ public class MatterCrystalBreaker extends PickaxeItem {
     @Override
     public boolean mineBlock(ItemStack p_40998_, Level p_40999_, BlockState p_41000_, BlockPos p_41001_, LivingEntity p_41002_) {
         Player player = (Player) p_41002_;
-        var radius = (CommonConfig.pickaxeRadius + 1);
+        var radius = (LVCommon.INSTANCE.getPickaxeRadius() + 1);
 
         if (!p_40999_.isClientSide() && !player.isShiftKeyDown()
                 && !player.getCooldowns().isOnCooldown(p_40998_.getItem()) && player instanceof ServerPlayer serverPlayer) {

@@ -29,17 +29,17 @@ val version_mod: String by project
 val type_version: String by project
 val lv_version: String = "${mc_version}-${type_version}${version_mod}"
 
-val uuid = project.findProperty("uuid_mc")
-val accessToken = project.findProperty("access_token_mc")
-val clientId = project.findProperty("client_id_mc")
-val xuid = project.findProperty("xuid_mc")
+val uuid = project.findProperty("uuid_mc") as String
+val accessToken = project.findProperty("access_token_mc") as String
+val clientId = project.findProperty("client_id_mc") as String
+val xuid = project.findProperty("xuid_mc") as String
 
 val shadow: Configuration by configurations.creating
 
 val main = sourceSets["main"]
 
 group = "com.algorithmlx"
-version = "${lv_version}"
+version = lv_version
 
 evaluationDependsOnChildren()
 
@@ -62,7 +62,7 @@ java {
 }
 
 configure<UserDevExtension> {
-    mappings("official", "$mc_version")
+    mappings("official", mc_version)
 
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
@@ -76,7 +76,7 @@ configure<UserDevExtension> {
             property("forge.enabledGameTestNamespaces", "liaveres")
             property("mixin.env.remapRefMap", "true")
             property("mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg")
-            arg("-mixin.config=liaveres.mixins.json")
+            args("-mixin.config=liaveres.mixins.json", "--uuid $uuid", "--accessToken $accessToken", "--clientId $clientId", "--xuid $xuid", "--userType msa")
 
             mods {
                 create("liaveres") {
