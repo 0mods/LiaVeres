@@ -1,9 +1,9 @@
 package com.algorithmlx.liaveres.common.setup;
 
-import com.algorithmlx.liaveres.api.recipe.LVRecipeSerializer;
-import com.algorithmlx.liaveres.api.util.ContainedItem;
-import com.algorithmlx.liaveres.api.util.container.SizedContainer;
-import com.algorithmlx.liaveres.api.util.tools.ContainedItemBuilder;
+import com.algorithmlx.api.recipe.LVRecipeSerializer;
+import com.algorithmlx.api.util.ContainedItem;
+import com.algorithmlx.api.util.container.SizedContainer;
+import com.algorithmlx.api.util.tools.ContainedItemBuilder;
 import com.algorithmlx.liaveres.common.block.*;
 import com.algorithmlx.liaveres.common.block.entity.YarnStationBlockEntity;
 import com.algorithmlx.liaveres.common.entity.*;

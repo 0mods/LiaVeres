@@ -1,0 +1,5 @@
+{
+  "type": "liaveres:ore_gen_codec",
+  "biomes": "#is_end",
+  "feature": "liaveres:crystallite_end"
+}

@@ -1,5 +1,0 @@
-{
-  "type": "liaveres:ore_gen_codec",
-  "biomes": "#minecraft:is_overworld",
-  "feature": "liaveres:crystallite"
-}

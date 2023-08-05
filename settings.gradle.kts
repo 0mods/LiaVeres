@@ -4,10 +4,10 @@ pluginManagement {
         maven("https://maven.neoforged.net/releases")
         maven("https://repo.spongepowered.org/repository/maven-public/")
     }
-    val kotlin_version: String by settings
+    val kotlinVersion: String by settings
     plugins {
-        kotlin("jvm") version kotlin_version
-        kotlin("plugin.serialization") version kotlin_version
+        kotlin("jvm") version kotlinVersion
+        kotlin("plugin.serialization") version kotlinVersion
     }
 }
 

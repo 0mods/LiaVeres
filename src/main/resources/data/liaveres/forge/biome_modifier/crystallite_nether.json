@@ -1,5 +1,0 @@
-{
-  "type": "liaveres:ore_gen_codec",
-  "biomes": "#minecraft:is_nether",
-  "feature": "liaveres:crystallite"
-}

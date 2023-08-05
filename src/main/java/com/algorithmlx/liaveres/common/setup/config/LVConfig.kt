@@ -1,6 +1,6 @@
 package com.algorithmlx.liaveres.common.setup.config
 
-import com.algorithmlx.liaveres.api.config.Config
+import com.algorithmlx.api.config.Config
 
 object LVCommon {
     @Config(

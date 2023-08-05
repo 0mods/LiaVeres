@@ -1,7 +1,6 @@
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.spongepowered.asm.gradle.plugins.MixinExtension
 
 buildscript {
@@ -12,22 +11,24 @@ buildscript {
 
 plugins {
     java
-    eclipse
     idea
     `maven-publish`
     id("net.neoforged.gradle") version "6.+"
-    kotlin("jvm") version "1.9.0-Beta"
+    kotlin("jvm") version "1.9.0"
+    kotlin("plugin.lombok") version "1.9.0"
+    id("io.freefair.lombok") version "8.1.0"
 }
 
 apply(plugin = "org.spongepowered.mixin")
 
-val mc_version: String by project
-val forge_version: String by project
-val coroutines_version: String by project
-val serialization_version: String by project
-val version_mod: String by project
-val type_version: String by project
-val lv_version: String = "${mc_version}-${type_version}${version_mod}"
+val mcVersion: String by project
+val forgeVersion: String by project
+val coroutinesVersion: String by project
+val serializationVersion: String by project
+val versionMod: String by project
+val typeVersion: String by project
+val jeiVersion: String by project
+val lvVersion: String = "${mcVersion}-${typeVersion}${versionMod}"
 
 val uuid = project.findProperty("uuid_mc") as String
 val accessToken = project.findProperty("access_token_mc") as String
@@ -36,10 +37,10 @@ val xuid = project.findProperty("xuid_mc") as String
 
 val shadow: Configuration by configurations.creating
 
-val main = sourceSets["main"]
+val main: SourceSet = sourceSets["main"]
 
 group = "com.algorithmlx"
-version = lv_version
+version = lvVersion
 
 evaluationDependsOnChildren()
 
@@ -62,7 +63,7 @@ java {
 }
 
 configure<UserDevExtension> {
-    mappings("official", mc_version)
+    mappings("official", mcVersion)
 
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
@@ -149,29 +150,36 @@ configure<MixinExtension> {
 }
 
 repositories {
-    maven("https://nexus.twelveiterations.com/repository/maven-public/")
     maven("https://maven.theillusivec4.top/")
+    maven("https://repsy.io/mvn/algorithmlx/algomaven/")
+    maven("https://dvs1.progwml6.com/files/maven/")
+    maven("https://modmaven.dev/")
+    maven("https://maven.theillusivec4.top/")
+    maven("https://maven.blamejared.com/")
 
     mavenCentral()
 }
 
 dependencies {
-    minecraft("net.neoforged:forge:$mc_version-$forge_version")
+    minecraft("net.neoforged:forge:$mcVersion-$forgeVersion")
 
+    implementation(fg.deobf("mezz.jei:jei-${mcVersion}-common-api:${jeiVersion}"))
+    implementation(fg.deobf("mezz.jei:jei-${mcVersion}-forge-api:${jeiVersion}"))
+    implementation(fg.deobf("mezz.jei:jei-${mcVersion}-forge:${jeiVersion}"))
     implementation(fg.deobf("top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1"))
-
-    shadow("org.jetbrains.kotlin:kotlin-reflect:${kotlin.coreLibrariesVersion}")
-    shadow("org.jetbrains.kotlin:kotlin-stdlib:${kotlin.coreLibrariesVersion}")
-    shadow("org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin.coreLibrariesVersion}")
-    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutines_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${coroutines_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
 
     implementation("org.projectlombok:lombok:1.18.28")
 
     implementation(kotlin("stdlib"))
+
+    shadow("org.jetbrains.kotlin:kotlin-reflect:${kotlin.coreLibrariesVersion}")
+    shadow("org.jetbrains.kotlin:kotlin-stdlib:${kotlin.coreLibrariesVersion}")
+    shadow("org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin.coreLibrariesVersion}")
+    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutinesVersion}")
+    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${coroutinesVersion}")
+    shadow("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
+    shadow("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
 
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
     annotationProcessor("org.projectlombok:lombok:1.18.28")

@@ -1,7 +1,7 @@
 package com.algorithmlx.liaveres.common.setup;
 
-import com.algorithmlx.liaveres.api.config.KConfigBuilder;
-import com.algorithmlx.liaveres.api.network.Direction;
+import com.algorithmlx.api.config.KConfigBuilder;
+import com.algorithmlx.api.network.Direction;
 import com.algorithmlx.liaveres.common.event.LVEvents;
 import com.algorithmlx.liaveres.common.setup.config.LVCommon;
 import com.algorithmlx.liaveres.proxy.ClientProxy;

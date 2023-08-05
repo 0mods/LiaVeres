@@ -1,6 +1,6 @@
 package com.algorithmlx.liaveres.proxy;
 
-import com.algorithmlx.liaveres.api.network.Direction;
+import com.algorithmlx.api.network.Direction;
 import com.algorithmlx.liaveres.common.setup.Constants;
 import com.algorithmlx.liaveres.server.registry.CommandRegister;
 import net.minecraft.world.entity.player.Player;

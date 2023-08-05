@@ -5,9 +5,11 @@ import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -79,17 +81,17 @@ public class YarnStation extends BaseEntityBlock {
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (pState.getBlock() != pNewState.getBlock()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof YarnStationBlockEntity e)
-                e.drops();
+            if (blockEntity instanceof YarnStationBlockEntity e) {
+                var inInput = e.getStackHandler().getStackInSlot(0);
+                var inString = e.getStackHandler().getStackInSlot(1);
+                var inOutput = e.getStackHandler().getStackInSlot(2);
+
+                Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), inInput);
+                Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), inString);
+                Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), inOutput);
+            }
         }
+
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return this.createTickerHelper(pBlockEntityType, LVRegister.YARN_STATION_BLOCK_ENTITY.get(),
-                YarnStationBlockEntity::tick);
-    }
-
 }

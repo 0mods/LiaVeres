@@ -1,6 +1,6 @@
 package com.algorithmlx.liaveres.common.item.material;
 
-import com.algorithmlx.liaveres.api.util.tools.InLineMaterial;
+import com.algorithmlx.api.util.tools.InLineMaterial;
 import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
