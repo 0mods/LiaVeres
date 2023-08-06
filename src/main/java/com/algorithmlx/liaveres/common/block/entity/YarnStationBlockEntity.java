@@ -1,6 +1,6 @@
 package com.algorithmlx.liaveres.common.block.entity;
 
-import com.algorithmlx.api.util.entity.AbstractContainerBlockEntity;
+import com.algorithmlx.api.block.entity.AbstractContainerBlockEntity;
 import com.algorithmlx.api.util.tools.helper.StackHandler;
 import com.algorithmlx.liaveres.common.menu.YarnStationContainerMenu;
 import com.algorithmlx.liaveres.common.setup.Constants;

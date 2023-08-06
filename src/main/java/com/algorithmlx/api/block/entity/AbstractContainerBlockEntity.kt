@@ -1,4 +1,4 @@
-package com.algorithmlx.api.util.entity
+package com.algorithmlx.api.block.entity
 
 import com.algorithmlx.api.util.tools.helper.StackHandler
 import net.minecraft.core.BlockPos

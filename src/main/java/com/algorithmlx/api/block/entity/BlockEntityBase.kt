@@ -1,4 +1,4 @@
-package com.algorithmlx.api.util.entity
+package com.algorithmlx.api.block.entity
 
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
