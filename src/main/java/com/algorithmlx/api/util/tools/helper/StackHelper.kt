@@ -8,7 +8,7 @@ object StackHelper {
         var shadowed = stack
 
         if (size <= 0)
-            return if (container && shadowed.hasCraftingRemainingItem()) shadowed.craftingRemainingItem
+            return if (container && shadowed.hasContainerItem()) shadowed.containerItem
             else ItemStack.EMPTY
 
         shadowed = shadowed.copy()
@@ -27,7 +27,7 @@ object StackHelper {
     }
 
     fun areItemsEqual(stack1: ItemStack, stack2: ItemStack): Boolean {
-        return if (stack1.isEmpty && stack2.isEmpty) true else !stack1.isEmpty && ItemStack.isSameItem(stack1, stack2)
+        return if (stack1.isEmpty && stack2.isEmpty) true else !stack1.isEmpty && ItemStack.isSame(stack1, stack2)
     }
 
     fun areStacksEqual(stack1: ItemStack, stack2: ItemStack): Boolean {

@@ -1,6 +1,7 @@
 package com.algorithmlx.liaveres.common.setup;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
 
 public class Constants {
@@ -13,7 +14,8 @@ public class Constants {
     public static final String ModId = "liaveres";
     public static final String ModName = "LiaVeres";
     public static final String CurioID = "curios";
-//    public static final String LiquidID = LiquidCore.ModId;
-//    public static final String CTId = "crafttweaker";
 
+    public static ResourceLocation reloc(String id) {
+        return new ResourceLocation(ModId, id);
+    }
 }

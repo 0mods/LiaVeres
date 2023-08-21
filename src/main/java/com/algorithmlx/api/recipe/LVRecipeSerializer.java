@@ -12,14 +12,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraftforge.common.extensions.IForgeRecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class LVRecipeSerializer<B extends LVAbstractRecipe> implements RecipeSerializer<B> {
+public class LVRecipeSerializer<B extends LVAbstractRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<B> {
     private final SerializerFactory<B> serializerFactory;
 
     public LVRecipeSerializer(SerializerFactory<B> serializerFactory) {

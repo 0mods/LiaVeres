@@ -4,9 +4,9 @@ import com.algorithmlx.api.config.KConfigBuilder;
 import com.algorithmlx.api.network.Direction;
 import com.algorithmlx.liaveres.common.event.LVEvents;
 import com.algorithmlx.liaveres.common.setup.config.LVCommon;
+import com.algorithmlx.liaveres.common.tags.LVTags;
 import com.algorithmlx.liaveres.proxy.ClientProxy;
 import com.algorithmlx.liaveres.proxy.ServerProxy;
-import com.algorithmlx.liaveres.server.network.Network;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -16,6 +16,7 @@ public class ModSetup {
     public static Direction proxy = Direction.of(ClientProxy::new, ServerProxy::new);
 
     public static void init() {
+        LVTags.init();
         KConfigBuilder.Companion.build(LVCommon.class, "common");
 
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -28,9 +29,6 @@ public class ModSetup {
     }
 
     public static void commonSetup(final FMLCommonSetupEvent event) {
-        Network.messageRegister();
-//        OreConfigured.register();
-//        OrePlacement.register();
         proxy.init();
     }
 }

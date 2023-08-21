@@ -1,24 +1,20 @@
 package com.algorithmlx.liaveres.common.event;
 
+import com.algorithmlx.api.gltf.animations.IAnimatable;
+import com.algorithmlx.liaveres.common.capability.AnimationCapability;
 import com.algorithmlx.liaveres.common.entity.Amdanor;
 import com.algorithmlx.liaveres.common.setup.LVRegister;
-import net.minecraft.advancements.critereon.LightningStrikeTrigger;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-import java.util.List;
 import java.util.Objects;
 
-public class LVEvents {
+import static com.algorithmlx.liaveres.common.setup.Constants.reloc;
+
+public final class LVEvents {
     // FIXME: 2/4/2022
     public void lightningBolt(LivingHurtEvent event) {
         Entity e = event.getEntity();
@@ -51,5 +47,9 @@ public class LVEvents {
 
     public static void registryEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(LVRegister.AMDANOR.get(), Amdanor.prepareAttributes().build());
+    }
+
+    public static void attachCapabilityToIAnimatable(AttachCapabilitiesEvent<IAnimatable> event) {
+        event.addCapability(reloc("animations"), new AnimationCapability.Provider());
     }
 }

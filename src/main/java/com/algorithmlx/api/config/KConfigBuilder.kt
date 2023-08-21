@@ -11,6 +11,7 @@ import java.io.IOException
 import java.lang.RuntimeException
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
+import java.nio.charset.StandardCharsets
 
 class KConfigBuilder private constructor(private val clazz: Class<*>, private val configName: String) {
     private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
@@ -26,7 +27,7 @@ class KConfigBuilder private constructor(private val clazz: Class<*>, private va
             configFiles.forEach {
                 val name = it.name.substring(0, it.name.length - (".json".length))
                 try {
-                    val fileContents = FileUtils.readFileToString(it, Charsets.UTF_8)
+                    val fileContents = FileUtils.readFileToString(it, StandardCharsets.UTF_8)
                     val jsonObject = gson.fromJson(fileContents, JsonObject::class.java)
                     configs[name] = jsonObject
                 } catch (e: IOException) {

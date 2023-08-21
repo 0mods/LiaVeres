@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class GildedNetheriteArmor extends ArmorItem {
-    public GildedNetheriteArmor(ArmorItem.Type pSlot) {
+    public GildedNetheriteArmor(EquipmentSlot pSlot) {
         super(LVArmorMaterials.GILDED_NETHERITE, pSlot, new Properties().rarity(Constants.getLegendary()).fireResistant());
     }
 

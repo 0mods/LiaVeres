@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 
 public class AmdanorModel<T extends Mob & RangedAttackMob> extends HumanoidModel<T> {
     public AmdanorModel(ModelPart p_170677_) {
@@ -32,7 +33,7 @@ public class AmdanorModel<T extends Mob & RangedAttackMob> extends HumanoidModel
     }
 
     @Override
-    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmiunt, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull T entityIn, float limbSwing, float limbSwingAmiunt, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entityIn, limbSwing, limbSwingAmiunt, ageInTicks, netHeadYaw, headPitch);
         ItemStack itemStack = entityIn.getMainHandItem();
         if (entityIn.isAggressive() && (itemStack.isEmpty() || itemStack.getItem() != Items.DIAMOND_SWORD)) {

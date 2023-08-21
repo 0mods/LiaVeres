@@ -8,6 +8,7 @@ import com.algorithmlx.liaveres.common.setup.LVRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,30 +19,32 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@SuppressWarnings({"DuplicatedCode", "NullableProblems", "EqualsBetweenInconvertibleTypes", "ConstantConditions"})
 public class MatterCrystalArmor extends ArmorItem {
 
-    public MatterCrystalArmor(ArmorItem.Type pSlot) {
+    public MatterCrystalArmor(EquipmentSlot pSlot) {
         super(LVArmorMaterials.MATTER_CRYSTAL, pSlot, new Properties().rarity(Constants.getLegendary()));
         MinecraftForge.EVENT_BUS.addListener(this::updatePlayerData);
         MinecraftForge.EVENT_BUS.addListener(this::cancelDamage);
     }
 
-    public void updatePlayerData(LivingEvent.LivingTickEvent event) {
-        LivingEntity livingEntity = event.getEntity();
+    public void updatePlayerData(TickEvent.PlayerTickEvent event) {
+        Player livingEntity = event.player;
 
         ItemStack head = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
         ItemStack chest = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
@@ -55,15 +58,15 @@ public class MatterCrystalArmor extends ArmorItem {
                         feet.getItem() == LVRegister.MATTER_CRYSTAL_BOOTS.get();
 
 
-        if (livingEntity.level().isClientSide() && event.equals(Minecraft.getInstance().player)) {
-            if (isFullMCA && livingEntity.onGround() && livingEntity.zza > 0F) {
+        if (livingEntity.level.isClientSide()) {
+            if (isFullMCA && livingEntity.isOnGround() && livingEntity.zza > 0F) {
                 livingEntity.moveRelative(1.4F, new Vec3( 0, 0, 1));
             }
         }
     }
 
     public void cancelDamage(LivingDamageEvent event) {
-        LivingEntity entity = event.getEntity();
+        LivingEntity entity = (LivingEntity) event.getEntity();
         Random random = new Random();
 
         ItemStack head = entity.getItemBySlot(EquipmentSlot.HEAD);
@@ -77,7 +80,7 @@ public class MatterCrystalArmor extends ArmorItem {
                         legs.getItem() == LVRegister.MATTER_CRYSTAL_LEGS.get() &&
                         feet.getItem() == LVRegister.MATTER_CRYSTAL_BOOTS.get();
 
-        if (event.isCanceled() || event.getAmount() <= 0 || event.getEntity().level().isClientSide()) return;
+        if (event.isCanceled() || event.getAmount() <= 0 || event.getEntity().level.isClientSide()) return;
 
         if (!isFullMatterCrystalArmor) return;
 
@@ -123,11 +126,6 @@ public class MatterCrystalArmor extends ArmorItem {
                         chestSlot.getItem() == LVRegister.MATTER_CRYSTAL_CHESTPLATE.get() &&
                         legsSlot.getItem() == LVRegister.MATTER_CRYSTAL_LEGS.get() &&
                         feetSlot.getItem() == LVRegister.MATTER_CRYSTAL_BOOTS.get();
-        boolean isNullMCA =
-                (headSlot.getItem() != LVRegister.MATTER_CRYSTAL_HELMET.get() && headSlot.getItem() == null) &&
-                (chestSlot.getItem() != LVRegister.MATTER_CRYSTAL_CHESTPLATE.get() && chestSlot.getItem() == null) &&
-                (legsSlot.getItem() != LVRegister.MATTER_CRYSTAL_LEGS.get() && legsSlot.getItem() == null) &&
-                (feetSlot.getItem() != LVRegister.MATTER_CRYSTAL_BOOTS.get() && feetSlot.getItem() == null);
 
         if (!isFullMCA && !player.isCreative()) {
             player.getAbilities().mayfly = false;
@@ -146,10 +144,8 @@ public class MatterCrystalArmor extends ArmorItem {
                     player.removeEffect(effect);
                 }
             }
-        }
-
-        if (isNullMCA) {
-            player.sendSystemMessage(Component.translatable("msg." + Constants.ModId + ".matter_crystal_armor.is_null." + values).withStyle(ChatFormatting.RED));
+        } else {
+            player.displayClientMessage(new TranslatableComponent("msg." + Constants.ModId + ".matter_crystal_armor.is_null." + values).withStyle(ChatFormatting.RED), true);
             for (MobEffect effect : effects) {
                 if (player.getEffect(effect) != null) {
                     player.removeEffect(effect);
@@ -172,30 +168,19 @@ public class MatterCrystalArmor extends ArmorItem {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack p_41421_, Level p_41422_, List<Component> p_41423_, TooltipFlag p_41424_) {
-        p_41423_.add(Component.translatable("msg." + Constants.ModId + ".matter_crystal_armor"));
-        p_41423_.add(Component.translatable("msg." + Constants.ModId + ".matter_crystal_msg"));
+    public void appendHoverText(@NotNull ItemStack p_41421_, Level p_41422_, List<Component> p_41423_, @NotNull TooltipFlag p_41424_) {
+        p_41423_.add(new TranslatableComponent("msg." + Constants.ModId + ".matter_crystal_armor"));
+        p_41423_.add(new TranslatableComponent("msg." + Constants.ModId + ".matter_crystal_msg"));
         super.appendHoverText(p_41421_, p_41422_, p_41423_, p_41424_);
     }
 
-//    @Override
-//    public boolean hasContainerItem(ItemStack stack) {
-//        return true;
-//    }
-//
-//    @Override
-//    public ItemStack getContainerItem(ItemStack stack) {
-//        return stack.copy();
-//    }
-
-
     @Override
-    public boolean hasCraftingRemainingItem(ItemStack stack) {
+    public boolean hasContainerItem(ItemStack stack) {
         return true;
     }
 
     @Override
-    public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
-        return itemStack.copy();
+    public ItemStack getContainerItem(ItemStack stack) {
+        return stack.copy();
     }
 }

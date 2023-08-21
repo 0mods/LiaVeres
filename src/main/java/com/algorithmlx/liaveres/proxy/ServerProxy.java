@@ -2,7 +2,6 @@ package com.algorithmlx.liaveres.proxy;
 
 import com.algorithmlx.api.network.Direction;
 import com.algorithmlx.liaveres.common.setup.Constants;
-import com.algorithmlx.liaveres.server.registry.CommandRegister;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,7 +13,6 @@ import net.minecraftforge.fml.common.Mod;
 public class ServerProxy implements Direction {
     @SubscribeEvent
     public static void doServer(final RegisterCommandsEvent event) {
-        CommandRegister.commandRegister(event.getDispatcher());
     }
 
     @Override

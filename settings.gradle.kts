@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven("https://maven.neoforged.net/releases")
+        maven("https://maven.minecraftforge.net/")
         maven("https://repo.spongepowered.org/repository/maven-public/")
     }
     val kotlinVersion: String by settings
@@ -11,4 +11,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "LiaVeres"
+rootProject.name = "LiaVeresRemake"

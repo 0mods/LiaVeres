@@ -1,9 +1,7 @@
 package com.algorithmlx.liaveres.common.item.artifact;
 
-import com.algorithmlx.liaveres.common.setup.ModSetup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;

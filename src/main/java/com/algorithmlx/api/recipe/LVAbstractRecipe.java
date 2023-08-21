@@ -40,7 +40,7 @@ public abstract class LVAbstractRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack assemble(Container p_44001_, RegistryAccess p_267165_) {
+    public ItemStack assemble(Container p_44001_) {
         return this.result.copy();
     }
 
@@ -57,7 +57,7 @@ public abstract class LVAbstractRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess p_267052_) {
+    public ItemStack getResultItem() {
         return this.result.copy();
     }
 

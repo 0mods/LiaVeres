@@ -11,7 +11,7 @@ import top.theillusivec4.curios.api.CuriosCapability
 import top.theillusivec4.curios.api.type.capability.ICurio
 
 class LVCuriosCapabilities {
-    val deepRingCurios = lazyCap { DeepRingCurios() }
+    val deepRingCurios = lazyCap(::DeepRingCurios)
 
     private fun curioCapProvider(lazy: LazyOptional<ICurio>): ICapabilityProvider = object : ICapabilityProvider {
         override fun <T> getCapability(cap: Capability<T>, side: Direction?): LazyOptional<T> =

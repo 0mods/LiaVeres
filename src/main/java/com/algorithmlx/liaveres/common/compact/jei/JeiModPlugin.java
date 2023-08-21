@@ -28,12 +28,12 @@ public class JeiModPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(new YarnRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+//        registration.addRecipeCategories(new YarnRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(LVRegister.YARN_STATION.get()), YarnRecipeCategory.RECIPE_TYPE);
+//        registration.addRecipeCatalyst(new ItemStack(LVRegister.YARN_STATION.get()), YarnRecipeCategory.RECIPE_TYPE);
     }
 
     @Override
@@ -45,8 +45,8 @@ public class JeiModPlugin implements IModPlugin {
         if (level.isClientSide) {
             RecipeManager manager = level.getRecipeManager();
 
-            registration.addRecipes(new YarnRecipeCategory(registration.getJeiHelpers().getGuiHelper()).getRecipeType(),
-                    manager.getAllRecipesFor(RecipeTypes.YARN_RECIPE_TYPE));
+//            registration.addRecipes(new YarnRecipeCategory(registration.getJeiHelpers().getGuiHelper()).getRecipeType(),
+//                    manager.getAllRecipesFor(RecipeTypes.YARN_RECIPE_TYPE));
         }
     }
 }

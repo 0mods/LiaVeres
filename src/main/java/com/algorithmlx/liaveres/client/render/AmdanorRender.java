@@ -23,7 +23,7 @@ public class AmdanorRender extends HumanoidMobRenderer<Amdanor, AmdanorModel<Amd
     }
     public AmdanorRender(EntityRendererProvider.Context context, ModelLayerLocation location, ModelLayerLocation location1, ModelLayerLocation location2) {
         super(context, new AmdanorModel<>(context.bakeLayer(location)), 0.5f);
-        this.addLayer(new HumanoidArmorLayer<>(this, new AmdanorModel<>(context.bakeLayer(location1)), new AmdanorModel<>(context.bakeLayer(location2)), context.getModelManager()));
+        this.addLayer(new HumanoidArmorLayer<>(this, new AmdanorModel<>(context.bakeLayer(location1)), new AmdanorModel<>(context.bakeLayer(location2))));
     }
 
     @Override

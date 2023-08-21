@@ -3,6 +3,7 @@ package com.algorithmlx.api.util.tools;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Tier;
@@ -54,21 +55,26 @@ public class InLineMaterial {
         }
 
         @Override
-        public int getDurabilityForType(ArmorItem.Type p_266807_) {
-            var index = p_266807_.getSlot().getIndex();
-            if (p_266807_ == ArmorItem.Type.BOOTS) return armorDurability[index] * this.maxDamage;
-            else if (p_266807_ == ArmorItem.Type.HELMET) return armorDurability[index] * this.maxDamage;
-            else if (p_266807_ == ArmorItem.Type.CHESTPLATE) return armorDurability[index] * this.maxDamage;
-            else if (p_266807_ == ArmorItem.Type.LEGGINGS) return armorDurability[index] * this.maxDamage;
-            return 0;
+        public int getDurabilityForSlot(@NotNull EquipmentSlot slot) {
+            return armorDurability[slot.getIndex()] * maxDamage;
         }
 
         @Override
-        public int getDefenseForType(@NotNull ArmorItem.Type p_267168_) {
-            if (p_267168_ == ArmorItem.Type.HELMET) return helmetDef;
-            else if (p_267168_ == ArmorItem.Type.CHESTPLATE) return chestDef;
-            else if (p_267168_ == ArmorItem.Type.LEGGINGS) return legsDef;
-            else if (p_267168_ == ArmorItem.Type.BOOTS) return bootsDef;
+        public int getDefenseForSlot(@NotNull EquipmentSlot slot) {
+            switch (slot) {
+                case HEAD -> {
+                    return helmetDef;
+                }
+                case CHEST -> {
+                    return chestDef;
+                }
+                case LEGS -> {
+                    return legsDef;
+                }
+                case FEET -> {
+                    return bootsDef;
+                }
+            }
             return 0;
         }
 

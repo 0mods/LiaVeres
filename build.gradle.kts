@@ -13,10 +13,9 @@ plugins {
     java
     idea
     `maven-publish`
-    id("net.neoforged.gradle") version "6.+"
+    id("net.minecraftforge.gradle") version "6.+"
     kotlin("jvm") version "1.9.0"
-    kotlin("plugin.lombok") version "1.9.0"
-    id("io.freefair.lombok") version "8.1.0"
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 apply(plugin = "org.spongepowered.mixin")
@@ -150,25 +149,23 @@ configure<MixinExtension> {
 }
 
 repositories {
-    maven("https://maven.theillusivec4.top/")
-    maven("https://repsy.io/mvn/algorithmlx/algomaven/")
-    maven("https://dvs1.progwml6.com/files/maven/")
-    maven("https://modmaven.dev/")
-    maven("https://maven.theillusivec4.top/")
-    maven("https://maven.blamejared.com/")
+//    maven("https://maven.theillusivec4.top/")
+//    maven("https://repsy.io/mvn/algorithmlx/algomaven/")
+//    maven("https://dvs1.progwml6.com/files/maven/")
+//    maven("https://modmaven.dev/")
+//    maven("https://maven.theillusivec4.top/")
+//    maven("https://maven.blamejared.com/")
 
     mavenCentral()
 }
 
 dependencies {
-    minecraft("net.neoforged:forge:$mcVersion-$forgeVersion")
+    minecraft("net.minecraftforge:forge:$mcVersion-$forgeVersion")
 
-    implementation(fg.deobf("mezz.jei:jei-${mcVersion}-common-api:${jeiVersion}"))
-    implementation(fg.deobf("mezz.jei:jei-${mcVersion}-forge-api:${jeiVersion}"))
-    implementation(fg.deobf("mezz.jei:jei-${mcVersion}-forge:${jeiVersion}"))
-    implementation(fg.deobf("top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1"))
-
-    implementation("org.projectlombok:lombok:1.18.28")
+//    implementation(fg.deobf("mezz.jei:jei-${mcVersion}-common-api:${jeiVersion}"))
+//    implementation(fg.deobf("mezz.jei:jei-${mcVersion}-forge-api:${jeiVersion}"))
+//    implementation(fg.deobf("mezz.jei:jei-${mcVersion}-forge:${jeiVersion}"))
+//    implementation(fg.deobf("top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1"))
 
     implementation(kotlin("stdlib"))
 
@@ -182,7 +179,6 @@ dependencies {
     shadow("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
 
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
-    annotationProcessor("org.projectlombok:lombok:1.18.28")
 }
 
 tasks {
